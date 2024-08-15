@@ -1,0 +1,293 @@
+[
+    {
+        "name": "Nano pop - [ Video game ]",
+        "slug": "nano-pop-video-game",
+        "description": "In 'Nano Pop', you must guide a small customizable character through platforms by pressing colored buttons. Mental agility is key, as you must react quickly to advance upwards.",
+        "thumbnail": "static/project_imgs/Nano Pop/NanoPopLogo.png",
+        "category": "videogame",
+        "features": [
+            {
+                "param": "Category",
+                "value": "Casual"
+            },
+            {
+                "param": "Platform",
+                "value": "Mobile"
+            },
+            {
+                "param": "Role",
+                "value": "Programmer"
+            },
+            {
+                "param": "Engine",
+                "value": "Unity 2D"
+            },
+            {
+                "param": "Fecha",
+                "value": "2021/05/26"
+            },
+            {
+                "param": "Language",
+                "value": "C#"
+            }
+
+        ],
+        "videos": [
+            {
+                "video": "static/project_imgs/Nano Pop/NanoPopGameplay.mp4",
+                "preview": "static/project_imgs/Nano Pop/PreviewNanoPopGameplay.png"
+            },
+            {
+                "video": "static/project_imgs/Nano Pop/NanoPopTeaser.mp4",
+                "preview": "static/project_imgs/Nano Pop/PreviewNanoPopTeaser.png"
+            },
+            {
+                "video": "static/project_imgs/Nano Pop/NanoPopStore.mp4",
+                "preview": "static/project_imgs/Nano Pop/PreviewNanoPopStore.png"
+            }
+        ],
+        "images": [],
+        "file": null,
+        "url": null,
+        "hasClientAccess": false,
+        "hasAdminAccess": false,
+        "creationDate": "2021-05-26"
+    },
+    {
+        "name": "Dance Duel 3D - [ Video game ]",
+        "slug": "dance-duel-3D-video-game",
+        "description": "Dance Duel 3D is a mobile game that combines the excitement of dancing with the logic of connecting dots. Players must follow on-screen numbers to create choreographies as characters dance. The music and visual effects make the experience fun and addictive.",
+        "thumbnail": "static/project_imgs/Dance Duel 3D/DanceDuelLogo.png",
+        "category": "videogame",
+        "features": 
+        [
+            {
+                "param": "Category",
+                "value": "Hyper-casual"
+            },
+            {
+                "param": "Platform",
+                "value": "Mobile"
+            },
+            {
+                "param": "Role",
+                "value": "Programmer"
+            },
+            {
+                "param": "Engine",
+                "value": "Unity 3D"
+            },
+            {
+                "param": "Fecha",
+                "value": "2022/01/17"
+            },
+            {
+                "param": "Language",
+                "value": "C#"
+            }
+
+        ],
+        "videos": [
+            {
+                "video": "static/project_imgs/Dance Duel 3D/gameplay.mp4",
+                "preview": "static/project_imgs/Dance Duel 3D/PreviewGameplay.png"
+            }
+        ],
+        "images": [
+            {
+                "image": "static/project_imgs/Dance Duel 3D/menu.png"
+            },
+            {
+                "image": "static/project_imgs/Dance Duel 3D/banner.png"
+            }
+        ],
+        "file": null,
+        "url": null,
+        "hasClientAccess": false,
+        "hasAdminAccess": false,
+        "creationDate": "2021-05-26"
+    },
+    {
+        "name": "Manager inventory web - [ Website ]",
+        "slug": "manager-inventory-web",
+        "description": "Streamline inventory control with our platform. Efficiently manage products from storage to replenishment, ensuring responsive demand handling. Simplify logistics and enhance customer service quality with our comprehensive solution.",
+        "thumbnail": "static/project_imgs/InventoryWeb/InventoryWebThumbnail.png",
+        "category": "web",
+        "features": 
+        [
+            {
+                "param": "Category",
+                "value": "Administration"
+            },
+            {
+                "param": "Platform",
+                "value": "Web"
+            },
+            {
+                "param": "Design",
+                "value": "Responsive"
+            },
+            {
+                "param": "Framework",
+                "value": "Django"
+            },
+            {
+                "param": "Fecha",
+                "value": "2022/03/22"
+            },
+            {
+                "param": "Languages",
+                "value": "Python | HTML | CSS"
+            }
+
+        ],
+        "videos": [
+            {
+                "video": "static/project_imgs/InventoryWeb/inventoryWebMobile.mp4",
+                "preview": "static/project_imgs/InventoryWeb/inventoryWebMobile.png"
+            },
+            {
+                "video": "static/project_imgs/InventoryWeb/inventoryWebDesktop.mp4",
+                "preview": "static/project_imgs/InventoryWeb/inventoryWebDesktopXL.png"
+            }
+        ],
+        "images": [
+            {
+                "image": "static/project_imgs/InventoryWeb/inventoryWebTablet.png"
+            },
+            {
+                "image": "static/project_imgs/InventoryWeb/inventoryWebMobileS.png"
+            },
+            {
+                "image": "static/project_imgs/InventoryWeb/inventoryWebDesktop.png"
+            }
+        ],
+        "file": null,
+        "url": "https://inventory-web-avmg.onrender.com/",
+        "hasClientAccess": false,
+        "hasAdminAccess": true,
+        "creationDate": "2022-03-22"
+    },
+    {
+        "name": "Rental housing web - [ Website ]",
+        "slug": "rental-housing-web",
+        "description": "Effortlessly manage your properties and create unforgettable experiences for your guests. Plus, your clients can easily book online using their account or as guests.",
+        "thumbnail": "static/project_imgs/RentalHousingWeb/RentalHousingWebThumbnail.png",
+        "category": "web",
+        "features": 
+        [
+            {
+                "param": "Category",
+                "value": "Administration | Rentals"
+            },
+            {
+                "param": "Platform",
+                "value": "Web"
+            },
+            {
+                "param": "Design",
+                "value": "Responsive"
+            },
+            {
+                "param": "Framework",
+                "value": "Django"
+            },
+            {
+                "param": "Fecha",
+                "value": "2022/07/05"
+            },
+            {
+                "param": "Languages",
+                "value": "Python | Javascript | HTML | CSS"
+            }
+
+        ],
+        "videos": [
+            {
+                "video": "static/project_imgs/RentalHousingWeb/RentalHousingWebMobile.mp4",
+                "preview": "static/project_imgs/RentalHousingWeb/RentalHousingWebMobile.png"
+            },
+            {
+                "video": "static/project_imgs/RentalHousingWeb/RentalHousingWebDesktop.mp4",
+                "preview": "static/project_imgs/RentalHousingWeb/RentalHousingWebDesktopXL.png"
+            }
+        ],
+        "images": [
+            {
+                "image": "static/project_imgs/RentalHousingWeb/RentalHousingWebTablet.png"
+            },
+            {
+                "image": "static/project_imgs/RentalHousingWeb/RentalHousingWebMobileS.png"
+            },
+            {
+                "image": "static/project_imgs/RentalHousingWeb/RentalHousingWebDesktop.png"
+            }
+        ],
+        "file": null,
+        "url": "https://rental-housing-web.onrender.com/",
+        "hasClientAccess": true,
+        "hasAdminAccess": true,
+        "creationDate": "2022-03-22"
+    },
+    {
+        "name": "Digital portfolio web - [ Website ]",
+        "slug": "digital-portfolio-web",
+        "description": "Explore this sample digital portfolio. The site includes a blog where you can share your ideas and experiences.",
+        "thumbnail": "static/project_imgs/RentalHousingWeb/RentalHousingWebThumbnail.png",
+        "category": "web",
+        "features": 
+        [
+            {
+                "param": "Category",
+                "value": "Portfolio | Administration"
+            },
+            {
+                "param": "Platform",
+                "value": "Web"
+            },
+            {
+                "param": "Design",
+                "value": "Responsive"
+            },
+            {
+                "param": "Framework",
+                "value": "Django | React"
+            },
+            {
+                "param": "Fecha",
+                "value": "2022/07/05"
+            },
+            {
+                "param": "Languages",
+                "value": "Python | Javascript | HTML | CSS"
+            }
+
+        ],
+        "videos": [
+            {
+                "video": "static/project_imgs/RentalHousingWeb/RentalHousingWebMobile.mp4",
+                "preview": "static/project_imgs/RentalHousingWeb/RentalHousingWebMobile.png"
+            },
+            {
+                "video": "static/project_imgs/RentalHousingWeb/RentalHousingWebDesktop.mp4",
+                "preview": "static/project_imgs/RentalHousingWeb/RentalHousingWebDesktopXL.png"
+            }
+        ],
+        "images": [
+            {
+                "image": "static/project_imgs/RentalHousingWeb/RentalHousingWebTablet.png"
+            },
+            {
+                "image": "static/project_imgs/RentalHousingWeb/RentalHousingWebMobileS.png"
+            },
+            {
+                "image": "static/project_imgs/RentalHousingWeb/RentalHousingWebDesktop.png"
+            }
+        ],
+        "file": null,
+        "url": "https://rental-housing-web.onrender.com/",
+        "hasClientAccess": false,
+        "hasAdminAccess": false,
+        "creationDate": "2022-08-07"
+    }
+]
