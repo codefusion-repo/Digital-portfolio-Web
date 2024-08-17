@@ -5,9 +5,9 @@ set -o errexit
 
 pip install --upgrade pip
 
-pip install -r server/requirements.txt
+pip install -r requirements.txt
 
-python server/manage.py collectstatic --no-input
+python manage.py collectstatic --no-input
 
 # python manage.py makemigrations
 
