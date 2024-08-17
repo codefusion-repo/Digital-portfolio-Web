@@ -4,6 +4,7 @@ django-cors-headers
 djangorestframework
 django-cleanup
 django-tinymce
+django-allauth==64.1.0
 
 djangorestframework-simplejwt
 argon2-cffi==23.1.0   
@@ -18,9 +19,9 @@ django-storages
 django-ckeditor
 psycopg2
 humanize
-
+python-slugify
 mailjet_rest
 
-gunicorn
+uvicorn 
 whitenoise
 boto3

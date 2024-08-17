@@ -21,6 +21,7 @@ import json
 from django.core.files.storage import FileSystemStorage
 import humanize
 from django.db import IntegrityError
+from slugify import slugify
 
 class BlogListView(APIView):
     permission_classes = (permissions.AllowAny,)
@@ -130,8 +131,8 @@ class CreatePostView(APIView):
     def post(self, request, format=None):
         data = self.request.data
         try:
-            c = Category.objects.get(id=int(data['category']))
-            new_post = Post.objects.create(
+            c = Category.objects.get(id=data['category'])
+            Post.objects.create(
                 title=data['title'],
                 slug=data['slug'],
                 thumbnail=data['thumbnail'],
@@ -142,7 +143,6 @@ class CreatePostView(APIView):
                 category=c,
                 status=data['status'],
             )  
-            new_post.save()
             return Response({'success': 'Publicación creada.'}, status=status.HTTP_200_OK)
         except IntegrityError as error:
             mensaje = f"Se produjo un error: {error}"
@@ -154,8 +154,50 @@ class CreatePostView(APIView):
             mensaje_humanizado = ' '.join(word.capitalize() for word in str(mensaje).split('_'))
             print('mensaje:'+mensaje_humanizado)
             return Response({'error': mensaje_humanizado}, status=status.HTTP_200_OK)
-        
+
+
 class EditPostView(APIView):
+    permission_classes = (permissions.IsAdminUser, AuthorPermission, IsPostAuthorOrReadOnly)
+    parser_classes = [MultiPartParser, FormParser]
+    
+    def post(self, request, format=None):
+        data = self.request.data
+
+        if Post.objects.filter(id=data['id']):
+            post = Post.objects.get(id=data['id'])
+        else:
+            return Response({ 'error': 'Post no found' }, status=status.HTTP_404_NOT_FOUND)
+        try:
+            if not Post.objects.filter(title=data['title']).exists():
+                if post.title != data['title']:
+                    post.title = data['title']
+                    post.slug = slugify(data['title'])
+
+            post.description = data['description']
+
+            print('thumbnail: ', data['thumbnail'])
+            if data['thumbnail']:
+                post.thumbnail = data['thumbnail']
+                
+            post.content = data['content']
+            c = Category.objects.get(id=data['category'])
+            post.category = c
+
+            if int(data['time_read']) >= 0:
+                post.time_read = int(data['time_read'])
+
+            print('status: ', data['status'])
+            post.status = data['status']   
+            post.save()  
+
+            serializer = PostSerializer(post)
+
+            return Response({ "post": serializer.data }, status=status.HTTP_200_OK)
+        except Exception as e:
+            print('error: ', e)
+            Response({'error': "Error when editing post" }, status=status.HTTP_400_BAD_REQUEST)
+
+class EditPostViewOld(APIView):
     permission_classes = (permissions.IsAdminUser, AuthorPermission, IsPostAuthorOrReadOnly)
     parser_classes = [MultiPartParser, FormParser]
 

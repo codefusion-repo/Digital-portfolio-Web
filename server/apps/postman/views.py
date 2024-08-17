@@ -12,8 +12,8 @@ class sendContactEmail(APIView):
     permission_classes = (permissions.AllowAny,)
     def post(self ,request, format=None):
         data = self.request.data
-        api_key = os.environ.get('MAILJET_API_KEY')
-        api_secret = os.environ.get('MAILJET_SECRET_KEY')
+        api_key = os.environ.get('MJ_APIKEY_PUBLIC')
+        api_secret = os.environ.get('MJ_APIKEY_PRIVATE')
         mailjet = Client(auth=(api_key, api_secret), version='v3.1')
         body = ''
         if data['mobile_number']:

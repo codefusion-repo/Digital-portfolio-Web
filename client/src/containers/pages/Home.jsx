@@ -42,28 +42,28 @@ function Home() {
 
           <div className="flex gap-l box-xxl j-end padding-s">
             <a className="btn-page" target="_blank" href="https://facebook.com">
-              <h2>
+              <h3>
                 <i className="bx bxl-facebook"></i>
-              </h2>
+              </h3>
             </a>
             <a className="btn-page" target="_blank" href="https://twitter.com">
-              <h2>
+              <h3>
                 <i className="bx bxl-twitter"></i>
-              </h2>
+              </h3>
             </a>
             <a
               className="btn-page"
               target="_blank"
               href="https://instagram.com"
             >
-              <h2>
+              <h3>
                 <i className="bx bxl-instagram-alt"></i>
-              </h2>
+              </h3>
             </a>
           </div>
 
           <a className="btn-middle" href="/portfolio">
-            <h2>Portfolio</h2>
+            <h3>Portfolio</h3>
           </a>
         </div>
 

@@ -12,6 +12,7 @@ from django.core.files.storage import FileSystemStorage
 from django.http import JsonResponse, HttpResponse, HttpResponseBadRequest
 from rest_framework.parsers import MultiPartParser, FormParser
 from django.db import IntegrityError
+from slugify import slugify
 
 class PortfolioListView(APIView):
     permission_classes = (permissions.AllowAny,)
@@ -98,7 +99,7 @@ class CreateProjectView(APIView):
     def post(self, request, format=None):
         data = self.request.data
         try:
-            new_project = Project.objects.create(
+            Project.objects.create(
                 title=data['title'],
                 slug=data['slug'],
                 thumbnail=data['thumbnail'],
@@ -108,7 +109,6 @@ class CreateProjectView(APIView):
                 category=data['category'],
                 status=data['status'],
             )  
-            new_project.save()
             return Response({'success': 'Proyecto creado.'}, status=status.HTTP_200_OK)
         except IntegrityError as error:
             mensaje = f"Se produjo un error: {error}"
@@ -120,8 +120,45 @@ class CreateProjectView(APIView):
             mensaje_humanizado = ' '.join(word.capitalize() for word in str(mensaje).split('_'))
             print('mensaje:'+mensaje_humanizado)
             return Response({'error': mensaje_humanizado}, status=status.HTTP_400_BAD_REQUEST)
-        
+
 class EditProjectView(APIView):
+    permission_classes = (permissions.IsAdminUser, AuthorPermission, IsPostAuthorOrReadOnly)
+    parser_classes = [MultiPartParser, FormParser]
+    
+    def post(self, request, format=None):
+        data = self.request.data
+
+        if Project.objects.filter(id=data['id']):
+            project = Project.objects.get(id=data['id'])
+        else:
+            return Response({ 'error': 'Post no found' }, status=status.HTTP_404_NOT_FOUND)
+        try:
+            if not Project.objects.filter(title=data['title']).exists():
+                if project.title != data['title']:
+                    project.title = data['title']
+                    project.slug = slugify(data['title'])
+
+            project.description = data['description']
+
+            print('thumbnail: ', data['thumbnail'])
+            if data['thumbnail']:
+                project.thumbnail = data['thumbnail']
+                
+            project.content = data['content']
+            project.category = data['category']
+
+            print('status: ', data['status'])
+            project.status = data['status']   
+            project.save()  
+
+            serializer = ProjectSerializer(project)
+
+            return Response({ "project": serializer.data }, status=status.HTTP_200_OK)
+        except Exception as e:
+            print('error: ', e)
+            Response({'error': "Error when editing project" }, status=status.HTTP_400_BAD_REQUEST)
+
+class EditProjectViewOld(APIView):
     permission_classes = (permissions.IsAdminUser, AuthorPermission, IsPostAuthorOrReadOnly)
     parser_classes = [MultiPartParser, FormParser]
     def put(self, request, format=None):
@@ -165,9 +202,9 @@ class DeleteProjectView(APIView):
         if Project.objects.filter(slug=slug).exists():
             project = Project.objects.get(slug=slug)
             project.delete()
-            return Response({'success': 'Proyecto eliminado.'}, status=status.HTTP_200_OK)
+            return Response({'success': 'Project deleted'}, status=status.HTTP_200_OK)
         else:
-            return Response({'error': 'Proyecto no encontrada.'}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'error': 'Project no found'}, status=status.HTTP_404_NOT_FOUND)
         
 @csrf_exempt
 def upload(request):

@@ -3,11 +3,11 @@
 /* ROOT COLORS */
 :root {
     /* BACKGROUND COLORS */
-    --base-bg: #4A4A4A;
+    --base-bg: rgb(74, 74, 74);
     --second-bg: #0bc5bf;
     --third-bg: #333333;
-    --four-bg: #dddddd;
-    --solid-bg: rgb(14, 29, 14);
+    --four-bg: rgb(221, 221, 221);
+    --solid-bg: rgba(26, 26, 26, 0.75);
 
     /* TEXT COLORS */
     --base-text: #dddddd;
@@ -102,6 +102,7 @@ html {
     overflow-x: hidden;
 }
 body {
+    background: var(--four-bg);
     color: var(--base-text);
     display: flex;
     flex-direction: column;
@@ -109,16 +110,20 @@ body {
     min-height: 100vh;  
     overflow-x: auto;
 }
+section {
+    min-height: 100vh;
+    padding: 1.5rem 4% 1.5rem;
+}
 
 /* TEXTS */ 
 h1 {
-    font-size: 3rem;
+    font-size: 2.5rem;
 }
 h2 {
-    font-size: 1.5rem;
+    font-size: 2rem;
 }
 h3 {
-    font-size: 1rem;
+    font-size: 1.25rem;
     line-height: 1.5;
 }
 h4 {
@@ -664,6 +669,9 @@ input::-webkit-outer-spin-button {
 .four-bg {
     background: var(--four-bg);
 }
+.solid-bg {
+    background: var(--solid-bg);
+}
 
 /* COLORS */
 .base-color {
@@ -1154,10 +1162,10 @@ input::-webkit-outer-spin-button {
 
 /* SIDEBAR PADDINGS */
 .sidebar-p-s {
-    padding-right: 55px;
+    padding-left: 75px;
 }
 .sidebar-p-m {
-    padding-right: 150px;
+    padding-left: 250px;
 }
 .sidebar-p-l {
     padding-left: 325px;
@@ -1347,45 +1355,59 @@ input::-webkit-outer-spin-button {
 }
 .zoom-in-xxs:hover {
     transform: scale(1);
+    color: var(--second-text);
 } 
 .zoom-in-xs:hover {
     transform: scale(1.1);
+    color: var(--second-text);
 } 
 .zoom-in-s:hover {
     transform: scale(1.25);
+    color: var(--second-text);
 } 
 .zoom-in-m:hover {
     transform: scale(1.4);
+    color: var(--second-text);
 } 
 .zoom-in-l:hover {
     transform: scale(1.55);
+    color: var(--second-text);
 } 
 .zoom-in-xl:hover {
     transform: scale(1.65);
+    color: var(--second-text);
 } 
 .zoom-in-xxl:hover  {
     transform: scale(1.75);
+    color: var(--second-text);
 }
 .zoom-out-xxs:hover {
     transform: scale(0.8);
+    color: var(--second-text);
 } 
 .zoom-out-xs:hover {
     transform: scale(0.975);
+    color: var(--second-text);
 } 
 .zoom-out-s:hover {
     transform: scale(1);
+    color: var(--second-text);
 } 
 .zoom-out-m:hover {
     transform: scale(1.025);
+    color: var(--second-text);
 } 
 .zoom-out-l:hover {
     transform: scale(1.05);
+    color: var(--second-text);
 } 
 .zoom-out-xl:hover {
     transform: scale(1.15);
+    color: var(--second-text);
 } 
 .zoom-out-xxl:hover  {
     transform: scale(1.25);
+    color: var(--second-text);
 }
 
 /* STARS COLOR */
@@ -1485,14 +1507,19 @@ input::-webkit-outer-spin-button {
     right: -12px;
 }
 
-.link {
+.link, 
+.link-out {
     display: flex;
-    justify-content: center;
     height: 25px;
+    gap: .75rem;
     padding: 0 1rem;
     text-shadow: none;
     cursor: pointer;
     transition: .3s ease;
+}
+.link-out:hover {
+    text-shadow: 0 0 0.75rem var(--second-text);
+    border-bottom: 1px solid var(--second-text);
 }
 .link:hover,
 .link.active {
