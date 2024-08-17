@@ -1,4 +1,0 @@
-export const ADD_DELETE_POST_MODAL = 'ADD_DELETE_POST_MODAL';
-export const ADD_MSJ_MODAL = 'ADD_MSJ_MODAL';
-export const ADD_MODAL = 'ADD_MODAL';
-export const REMOVE_MODAL = 'REMOVE_MODAL';
