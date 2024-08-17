@@ -27,4 +27,3 @@ services:
 networks:
   dpw-red:
     driver: bridge
-
