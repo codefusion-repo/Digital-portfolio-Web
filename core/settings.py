@@ -101,7 +101,7 @@ ROOT_URLCONF = 'core.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'static-pw' 'static' 'build')],
+        'DIRS': [os.path.join(BASE_DIR, 'build')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -176,8 +176,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static_root')
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static-pw/static')
+    os.path.join(BASE_DIR, 'build/static')
 ]
+
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media_root')
 MEDIA_URL = '/media/'
@@ -195,6 +196,7 @@ if not DEBUG:
     STATIC_LOCATION = 'static-pw/static/'
     STATIC_URL = f'{PROTOCOL}{AWS_S3_CUSTOM_DOMAIN}/{STATIC_LOCATION}'
     STATICFILES_STORAGE = 'core.storage_backends.StaticStorage'
+
 
     PUBLIC_MEDIA_LOCATION = 'static-pw/media/'
     MEDIA_URL = f'{PROTOCOL}{AWS_S3_CUSTOM_DOMAIN}/{PUBLIC_MEDIA_LOCATION}'
