@@ -126,7 +126,7 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
+DATABASES["default"]["ATOMIC_REQUESTS"] = True
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -179,7 +179,6 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'build/static')
 ]
 
-
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media_root')
 MEDIA_URL = '/media/'
 
@@ -196,7 +195,6 @@ if not DEBUG:
     STATIC_LOCATION = 'static-pw/static/'
     STATIC_URL = f'{PROTOCOL}{AWS_S3_CUSTOM_DOMAIN}/{STATIC_LOCATION}'
     STATICFILES_STORAGE = 'core.storage_backends.StaticStorage'
-
 
     PUBLIC_MEDIA_LOCATION = 'static-pw/media/'
     MEDIA_URL = f'{PROTOCOL}{AWS_S3_CUSTOM_DOMAIN}/{PUBLIC_MEDIA_LOCATION}'
