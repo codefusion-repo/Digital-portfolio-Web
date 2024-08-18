@@ -175,7 +175,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static_root')
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'build/static')
+    os.path.join(BASE_DIR, 'static-pw/static')
 ]
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media_root')
@@ -191,9 +191,9 @@ if not DEBUG:
     AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.sa-east-1.amazonaws.com'
     AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
 
-    # STATIC_LOCATION = 'static-pw/static/'
-    # STATIC_URL = f'{PROTOCOL}{AWS_S3_CUSTOM_DOMAIN}/{STATIC_LOCATION}'
-    # STATICFILES_STORAGE = 'core.storage_backends.StaticStorage'
+    STATIC_LOCATION = 'static-pw/static/'
+    STATIC_URL = f'{PROTOCOL}{AWS_S3_CUSTOM_DOMAIN}/{STATIC_LOCATION}'
+    STATICFILES_STORAGE = 'core.storage_backends.StaticStorage'
 
     PUBLIC_MEDIA_LOCATION = 'static-pw/media/'
     MEDIA_URL = f'{PROTOCOL}{AWS_S3_CUSTOM_DOMAIN}/{PUBLIC_MEDIA_LOCATION}'

@@ -29,6 +29,8 @@ node_modules
 media_root
 static_root
 */**/migrations
+docker-compose.yml
+render.yaml
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
