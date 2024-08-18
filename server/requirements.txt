@@ -6,7 +6,6 @@ djangorestframework
 django-cleanup
 django-tinymce
 
-
 djangorestframework-simplejwt
 argon2-cffi
 djoser
