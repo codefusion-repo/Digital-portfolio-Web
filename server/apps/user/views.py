@@ -28,9 +28,6 @@ class Login(APIView):
         username = data['username']
         password = data['password']
 
-        print("username: ", username)
-        print("password: ", password)
-
         user = User.objects.filter(username=username).first()
         if user is None or not user.check_password(password):
             return Response({'detail': 'Invalid credentials.'}, status=status.HTTP_400_BAD_REQUEST)
