@@ -19,7 +19,7 @@ function App() {
           content="firudev, software, developer, agencia de software, agencia de diseño, creación de pagina web, creación de videojuegos"
         ></meta>
         <meta name="robots" content="all"></meta>
-        <link rel="icon" href={favicon} />
+        <link rel="icon" href={`/favicon.ico`} />
         <link rel="apple-touch-icon" href={`static/media/logo.png`} />
         <link rel="canonical" href="https://www.FiruDev.com"></link>
         <meta name="author" content="FiruDev"></meta>
