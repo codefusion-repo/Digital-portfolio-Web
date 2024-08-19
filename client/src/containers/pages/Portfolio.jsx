@@ -1,33 +1,20 @@
 import Layout from "hocs/layouts/Layout";
-import logo from "assets/img/sampleBusinessImage.jpeg";
-import Reveal from "components/Reveal";
 import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { connect } from "react-redux";
-import {
-  get_portfolio_list,
-  get_portfolio_list_page,
-} from "redux/actions/portfolio/portfolio";
+import { get_portfolio_list } from "redux/actions/portfolio/portfolio";
 import { Link, useParams } from "react-router-dom";
 import FiltersHeader from "components/portfolio/FiltersHeader";
-import SmallSetPagination from "components/pagination/SmallSetPagination";
 import Pagination from "components/pagination/Pagination";
 
-function Portfolio({
-  get_portfolio_list,
-  get_portfolio_list_page,
-  portfolio_list,
-  count,
-  next,
-  previous,
-}) {
+function Portfolio({ get_portfolio_list, portfolio_list }) {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
 
     get_portfolio_list();
-    // get_portfolio_list_page(currentPage);
+    // eslint-disable-next-line
   }, []);
 
   let params = useParams();
@@ -74,10 +61,7 @@ function Portfolio({
                         key={project.id}
                         className="flex relative f-width-xl f-height-xl border-radius-xs hidden"
                       >
-                        <img
-                          src={`${process.env.REACT_APP_API_URL}/${project.thumbnail}`}
-                          alt="logo"
-                        />
+                        <img src={`${project.thumbnail}`} alt="logo" />
                         <div className="flex column box-xxl f-height-full a-center j-center absolute f-top f-left opacity-xs base-bg base-color padding-m gap-s">
                           <h3>{project.title}</h3>
                           <p>{project.description}</p>
@@ -91,9 +75,7 @@ function Portfolio({
                     ))}
                 </>
               ) : (
-                <h2 className="box-xxl padding-l-xs">
-                  No se encontraron proyectos.
-                </h2>
+                <h2 className="box-xxl padding-l-xs">No projects found</h2>
               )}
             </>
           )}
@@ -111,11 +93,7 @@ function Portfolio({
 }
 const mapStateToProps = (state) => ({
   portfolio_list: state.portfolio.portfolio_list,
-  count: state.portfolio.count,
-  next: state.portfolio.next,
-  previous: state.portfolio.previous,
 });
 export default connect(mapStateToProps, {
   get_portfolio_list,
-  get_portfolio_list_page,
 })(Portfolio);

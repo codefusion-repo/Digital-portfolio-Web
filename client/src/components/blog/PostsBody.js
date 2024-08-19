@@ -1,5 +1,4 @@
 import Pagination from "components/pagination/Pagination";
-import SmallSetPagination from "components/pagination/SmallSetPagination";
 import { useMobile } from "context/mobile/mobileContext";
 import moment from "moment";
 import { useEffect, useState } from "react";
@@ -45,7 +44,7 @@ function PostBody({ posts }) {
                   >
                     <img
                       className="fit-cover zoom-in-xs"
-                      src={`${process.env.REACT_APP_API_URL}/${post.thumbnail}`}
+                      src={`${post.thumbnail}`}
                       alt="post img"
                     />
                   </div>

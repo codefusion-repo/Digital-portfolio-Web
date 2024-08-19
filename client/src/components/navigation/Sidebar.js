@@ -23,16 +23,6 @@ function Sidebar({ logout }) {
 
   const [open, setOpen] = useState(false);
 
-  const handleSidebar = () => {
-    const sidebar = document.getElementsByClassName("sidebar");
-
-    if (open) {
-      sidebar.removeAttribute("class", "open");
-    } else {
-      sidebar.addAttribute("class", "open");
-    }
-  };
-
   return (
     <nav
       className={`flex column a-center j-start ${

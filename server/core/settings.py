@@ -83,7 +83,7 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 
-MIDDLEWARE = [
+DEV_MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -95,12 +95,21 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+MIDDLEWARE = DEV_MIDDLEWARE
+
+if not DEBUG: 
+    PRO_MIDDLEWARE = [
+        'allauth.account.middleware.AccountMiddleware',
+    ]
+
+    MIDDLEWARE = DEV_MIDDLEWARE + PRO_MIDDLEWARE
+
 ROOT_URLCONF = 'core.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'build')],
+        'DIRS': [os.path.join(BASE_DIR, 'static-pw')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -114,7 +123,6 @@ TEMPLATES = [
 ]
 
 ASGI_APPLICATION = 'core.asgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
@@ -191,9 +199,9 @@ if not DEBUG:
     AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.sa-east-1.amazonaws.com'
     AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
 
-    STATIC_LOCATION = 'static-pw/static/'
+    """STATIC_LOCATION = 'static-pw/static/'
     STATIC_URL = f'{PROTOCOL}{AWS_S3_CUSTOM_DOMAIN}/{STATIC_LOCATION}'
-    STATICFILES_STORAGE = 'core.storage_backends.StaticStorage'
+    STATICFILES_STORAGE = 'core.storage_backends.StaticStorage'"""
 
     PUBLIC_MEDIA_LOCATION = 'static-pw/media/'
     MEDIA_URL = f'{PROTOCOL}{AWS_S3_CUSTOM_DOMAIN}/{PUBLIC_MEDIA_LOCATION}'

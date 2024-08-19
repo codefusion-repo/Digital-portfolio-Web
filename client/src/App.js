@@ -5,41 +5,33 @@ import { Provider } from "react-redux";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import AnimatedRoutes from "AnimatedRoutes";
 
+import icon from "assets/favicon-32x32.png";
+import apple from "assets/apple-touch-icon.png";
+
 function App() {
   return (
     <HelmetProvider>
       <Helmet>
         <title>Digital portfolio web</title>
-        <meta
-          name="description"
-          content="Agencia de software. Servicio de diseño y desarrollo de videojuegos y paginas web."
-        ></meta>
-        <meta
-          name="keywords"
-          content="firudev, software, developer, agencia de software, agencia de diseño, creación de pagina web, creación de videojuegos"
-        ></meta>
+        <meta name="description" content=""></meta>
+        <meta name="keywords" content=""></meta>
         <meta name="robots" content="all"></meta>
-        <link rel="icon" href={`/favicon.ico`} />
-        <link rel="apple-touch-icon" href={`static/media/logo.png`} />
-        <link rel="canonical" href="https://www.FiruDev.com"></link>
-        <meta name="author" content="FiruDev"></meta>
-        <meta name="publisher" content="FiruDev"></meta>
+        <link rel="canonical" href=""></link>
+        <meta name="author" content=""></meta>
+        <meta name="publisher" content=""></meta>
 
-        <meta property="og:title" content="Firu Dev | Software Development" />
-        <meta
-          property="og:description"
-          content="Agencia de software. Servicio de diseño y desarrollo de videojuegos y paginas web."
-        />
-        <meta property="og:url" content="https://www.FiruDev.com" />
-        <meta property="og:image" content={`static/media/logo.png`} />
+        <meta property="og:title" content="" />
+        <meta property="og:description" content="" />
+        <meta property="og:url" content="" />
+        <meta property="og:image" content="" />
 
-        <meta name="twitter:title" content="Firu Dev | Software Development" />
-        <meta
-          name="twitter:description"
-          content="Agencia de software. Servicio de diseño y desarrollo de videojuegos y paginas web."
-        />
-        <meta name="twitter:image" content={`static/media/logo.png`} />
+        <meta name="twitter:title" content="" />
+        <meta name="twitter:description" content="" />
+        <meta name="twitter:image" content="" />
         <meta name="twitter:card" content="summary_large_image" />
+
+        <link rel="icon" href={icon} />
+        <link rel="apple-touch-icon" href={apple} />
       </Helmet>
       <Provider store={store}>
         <Router>

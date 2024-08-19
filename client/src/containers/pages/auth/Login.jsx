@@ -162,9 +162,17 @@ function Login({ login, isAuthenticated, loading }) {
               <h4>Forgot your password?</h4>
             </Link>
 
-            <button type="submit" className="btn-small">
-              <h2>Log in</h2>
-            </button>
+            {!loading ? (
+              <div className={`flex box-xxl j-center a-center gap-ms`}>
+                <button type="submit" className="btn-small">
+                  <h2>Log in</h2>
+                </button>
+              </div>
+            ) : (
+              <div className={`flex box-xxl j-center a-center gap-ms`}>
+                <h2>Loading</h2>
+              </div>
+            )}
           </form>
         </div>
       </section>

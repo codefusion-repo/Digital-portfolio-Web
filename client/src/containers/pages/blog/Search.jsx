@@ -5,40 +5,18 @@ import { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { connect } from "react-redux";
 import { Link, useParams } from "react-router-dom";
-import { get_search_blog, get_search_blog_page } from "redux/actions/blog/blog";
+import { get_search_blog } from "redux/actions/blog/blog";
 import { get_categories } from "redux/actions/categories/categories";
 
-function Search({
-  get_categories,
-  get_search_blog,
-  get_search_blog_page,
-  categories,
-  posts,
-  count,
-  next,
-  previous,
-}) {
+function Search({ get_categories, get_search_blog, categories, posts }) {
   const params = useParams();
   const term = params.term;
 
-  let currentPage = params.currentPage;
-
-  if (currentPage) {
-  } else {
-    currentPage = 1;
-  }
   useEffect(() => {
     window.scrollTo(0, 0);
     get_categories();
     get_search_blog(term);
-    // get_search_blog_page(term, currentPage)
-  }, [
-    get_categories,
-    get_search_blog,
-    get_search_blog_page,
-    term,
-    currentPage,
-  ]);
+  }, [get_categories, get_search_blog, term]);
   return (
     <Layout>
       <Helmet>
@@ -72,12 +50,8 @@ function Search({
 const mapStateToProps = (state) => ({
   categories: state.categories.categories,
   posts: state.blog.filtered_posts,
-  count: state.blog.count,
-  next: state.blog.next,
-  previous: state.blog.previous,
 });
 export default connect(mapStateToProps, {
   get_categories,
   get_search_blog,
-  get_search_blog_page,
 })(Search);

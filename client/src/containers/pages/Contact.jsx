@@ -9,6 +9,8 @@ import { ADD_MSJ_MODAL } from "redux/actions/modal/types";
 function Contact() {
   const { device } = useMobile();
 
+  const [loading, setLoading] = useState(false);
+
   React.useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -29,8 +31,19 @@ function Contact() {
 
   const dispatch = useDispatch();
 
+  function handleOpenModal(msj) {
+    dispatch({
+      type: ADD_MSJ_MODAL,
+      payload: {
+        showModal: true,
+        message: msj,
+      },
+    });
+  }
   const onSubmit = (e) => {
     e.preventDefault();
+
+    setLoading(true);
 
     const sendEmail = async () => {
       const formData = new FormData();
@@ -52,19 +65,17 @@ function Contact() {
         );
 
         if (res.status === 200) {
-          dispatch({
-            type: ADD_MSJ_MODAL,
-            payload: {
-              showModal: true,
-              message:
-                "Gracias por contactarnos, responderemos en breve. Enviamos una copia de la solicitud a tu correo electrónico.",
-            },
-          });
+          handleOpenModal(
+            "Thank you for contacting us, we will respond shortly. We will send a copy of the request to your email address"
+          );
+          setLoading(false);
         } else {
-          alert("Error al enviar el correo electrónico.");
+          handleOpenModal("Error sending e-mail");
+          setLoading(false);
         }
       } catch (err) {
-        alert("Error al enviar el correo electrónico.");
+        handleOpenModal("Error sending e-mail");
+        setLoading(false);
       }
     };
 
@@ -74,7 +85,7 @@ function Contact() {
   return (
     <Layout>
       <Helmet>
-        <title>Name | Contacto</title>
+        <title>Name | Contact</title>
       </Helmet>
       <section
         className="flex column a-center j-center four-bg third-color"
@@ -148,9 +159,15 @@ function Contact() {
             ></textarea>
           </div>
 
-          <button type="submit" className="btn-middle margin-t-s">
-            <h3>Send</h3>
-          </button>
+          {!loading ? (
+            <button type="submit" className="btn-middle margin-t-s">
+              <h3>Send</h3>
+            </button>
+          ) : (
+            <div className={`flex box-xxl j-center a-center gap-ms`}>
+              <h3>Loading</h3>
+            </div>
+          )}
         </form>
       </section>
     </Layout>

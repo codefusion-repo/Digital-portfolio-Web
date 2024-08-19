@@ -1,36 +1,21 @@
 import { connect, useDispatch } from "react-redux";
-import { Link, Navigate, useParams } from "react-router-dom";
-import {
-  get_author_portfolio_list,
-  get_author_portfolio_list_page,
-} from "redux/actions/portfolio/portfolio";
-import React, { useState } from "react";
-import Sidebar from "components/navigation/Sidebar";
+import { Link, useParams } from "react-router-dom";
+import { get_author_portfolio_list } from "redux/actions/portfolio/portfolio";
+import React, { useEffect, useState } from "react";
 import moment from "moment";
-import SmallSetPagination from "components/pagination/SmallSetPagination";
-import axios from "axios";
 import { ADD_DELETE_POST_MODAL } from "redux/actions/modal/types";
 import AdminLayout from "hocs/layouts/AdminLayout";
 import { useMobile } from "context/mobile/mobileContext";
 import { FaRegTrashAlt, FaEdit, FaExternalLinkAlt } from "react-icons/fa";
+import Pagination from "components/pagination/Pagination";
 
 function AuthorProjectList({
   isAuthenticated,
   get_author_portfolio_list,
-  get_author_portfolio_list_page,
   author_projects,
-  count,
-  next,
-  previous,
 }) {
   const { device } = useMobile();
-  let params = useParams();
-  let currentPage = params.currentPage;
 
-  if (currentPage) {
-  } else {
-    currentPage = 1;
-  }
   const dispatch = useDispatch();
 
   const handleDeleteOpenModal = (slug) => {
@@ -38,7 +23,7 @@ function AuthorProjectList({
       type: ADD_DELETE_POST_MODAL,
       payload: {
         showModal: true,
-        message: `Estas seguro que quieres eliminar el proyecto "${slug}"`,
+        message: `Are you sure you want to delete the project "${slug}"`,
         slug: slug,
         element: "project",
       },
@@ -49,9 +34,22 @@ function AuthorProjectList({
     window.scrollTo(0, 0);
 
     get_author_portfolio_list();
-    //get_author_portfolio_list_page(currentPage);
-    // Selecciona el elemento .sidebar a
-  }, [get_author_portfolio_list, get_author_portfolio_list_page, currentPage]);
+  }, [get_author_portfolio_list]);
+
+  let params = useParams();
+  const [currentPage, setCurrentPage] = useState(
+    params.currentPage ? params.currentPage : 1
+  );
+  const itemsPerPage = 10;
+  const [data, setData] = useState(author_projects);
+
+  let startIndex = (currentPage - 1) * itemsPerPage;
+  let endIndex = startIndex + itemsPerPage;
+  let currentItems = data?.slice(startIndex, endIndex);
+
+  useEffect(() => {
+    setData(author_projects);
+  }, [author_projects]);
 
   return (
     <AdminLayout>
@@ -65,8 +63,8 @@ function AuthorProjectList({
 
         {isAuthenticated ? (
           <div className="flex wrap box-xxl j-center third-color gap-m">
-            {author_projects &&
-              author_projects.map((project) => (
+            {currentItems &&
+              currentItems.map((project) => (
                 <div
                   key={project.id}
                   className={`flex wrap relative f-width-xxxxl ${
@@ -81,7 +79,7 @@ function AuthorProjectList({
                   >
                     <img
                       className="fit-cover zoom-in-xs"
-                      src={`${process.env.REACT_APP_API_URL}${project.thumbnail}`}
+                      src={`${project.thumbnail}`}
                       alt="post img"
                     />
                   </div>
@@ -158,10 +156,11 @@ function AuthorProjectList({
             <h3>Loading</h3>
           </>
         )}
-        <SmallSetPagination
-          list_page={get_author_portfolio_list_page}
-          list={author_projects}
-          count={count}
+        <Pagination
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          itemsPerPage={itemsPerPage}
+          data={data}
         />
       </div>
     </AdminLayout>
@@ -171,12 +170,8 @@ function AuthorProjectList({
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
   author_projects: state.portfolio.author_projects,
-  count: state.portfolio.count,
-  next: state.portfolio.next,
-  previous: state.portfolio.previous,
 });
 
 export default connect(mapStateToProps, {
   get_author_portfolio_list,
-  get_author_portfolio_list_page,
 })(AuthorProjectList);

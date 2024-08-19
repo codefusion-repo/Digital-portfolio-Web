@@ -1,5 +1,5 @@
 import Layout from "hocs/layouts/Layout";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { useState } from "react";
 import { connect, useDispatch } from "react-redux";
@@ -23,8 +23,6 @@ function ResetPassword({ reset_password }) {
 
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
-
-  const navigate = useNavigate();
 
   const dispatch = useDispatch();
 
@@ -62,7 +60,7 @@ function ResetPassword({ reset_password }) {
             type: ADD_MSJ_MODAL,
             payload: {
               showModal: true,
-              message: "Correo de recuperación enviado.",
+              message: "Recovery email sent",
             },
           });
 
@@ -78,7 +76,7 @@ function ResetPassword({ reset_password }) {
             payload: {
               showModal: true,
               message:
-                "El correo electrónico proporcionado no existe en nuestra base de datos.",
+                "The e-mail address provided does not exist in our database",
             },
           });
 
@@ -96,7 +94,7 @@ function ResetPassword({ reset_password }) {
           payload: {
             showModal: true,
             message:
-              "El correo electrónico proporcionado no existe en nuestra base de datos.",
+              "The e-mail address provided does not exist in our database",
           },
         });
 

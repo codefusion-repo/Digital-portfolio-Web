@@ -1,4 +1,3 @@
-import Sidebar from "components/navigation/Sidebar";
 import AdminLayout from "hocs/layouts/AdminLayout";
 
 import { Helmet } from "react-helmet-async";
@@ -6,7 +5,6 @@ import { connect } from "react-redux";
 import CreatePost from "./CreatePost";
 import CreateProject from "./CreateProject";
 import { useMobile } from "context/mobile/mobileContext";
-import { useState } from "react";
 
 function Dashboard({ isAuthenticated }) {
   const { device } = useMobile();

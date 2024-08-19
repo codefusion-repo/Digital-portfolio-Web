@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 import Layout from "hocs/layouts/Layout";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { get_project_detail } from "redux/actions/portfolio/portfolio";
 import moment from "moment";
@@ -28,10 +28,7 @@ function ProjectDetail({ get_project_detail, project }) {
             } column third-color`}
           >
             <div className="box-xxl f-height-ml second-border-b">
-              <img
-                src={`${process.env.REACT_APP_API_URL}/${project.thumbnail}`}
-                alt="post img"
-              />
+              <img src={`${project.thumbnail}`} alt="post img" />
             </div>
 
             <div

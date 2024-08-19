@@ -67,7 +67,7 @@ class ListPostByCategoryView(APIView):
 
             return paginator.get_paginated_response({'posts': serializer.data})
         else:
-            return Response({'error': 'No post found'}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'error': 'No posts found'}, status=status.HTTP_404_NOT_FOUND)
         
 class PostDetailView(APIView):
     permission_classes = (permissions.AllowAny,)
@@ -124,7 +124,7 @@ class AuthorPostListView(APIView):
             return Response({'author_posts': serializer.data}, status=status.HTTP_200_OK)
             return paginator.get_paginated_response({'author_posts': serializer.data})
         else:
-            return Response({'error':'Posts does not exit'}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'error':'Posts does not exist'}, status=status.HTTP_404_NOT_FOUND)
         
 class CreatePostView(APIView):
     permission_classes = (permissions.IsAdminUser, AuthorPermission,)
@@ -143,16 +143,16 @@ class CreatePostView(APIView):
                 category=c,
                 status=data['status'],
             )  
-            return Response({'success': 'Publicación creada.'}, status=status.HTTP_200_OK)
+            return Response({'success': 'Post created'}, status=status.HTTP_200_OK)
         except IntegrityError as error:
-            mensaje = f"Se produjo un error: {error}"
+            mensaje = f"An error occurred: {error}"
             mensaje_humanizado = ' '.join(word.capitalize() for word in str(mensaje).split('_'))
-            print('mensaje:'+mensaje_humanizado)
+            print('mensaje: '+ mensaje_humanizado)
             return Response({'error': mensaje_humanizado}, status=status.HTTP_200_OK)
         except Exception as error:
-            mensaje = f"Se produjo un error: {error}"
+            mensaje = f"An error occurred: {error}"
             mensaje_humanizado = ' '.join(word.capitalize() for word in str(mensaje).split('_'))
-            print('mensaje:'+mensaje_humanizado)
+            print('mensaje: '+ mensaje_humanizado)
             return Response({'error': mensaje_humanizado}, status=status.HTTP_200_OK)
 
 
@@ -247,9 +247,9 @@ class DeletePostView(APIView):
         if Post.objects.filter(slug=slug).exists():
             post = Post.objects.get(slug=slug)
             post.delete()
-            return Response({'success': 'Publicación eliminada.'}, status=status.HTTP_200_OK)
+            return Response({'success': 'Post deleted'}, status=status.HTTP_200_OK)
         else:
-            return Response({'error': 'Publicación no encontrada.'}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'error': 'No post found'}, status=status.HTTP_404_NOT_FOUND)
         
 @csrf_exempt
 def upload(request):

@@ -1,14 +1,11 @@
 import axios from "axios";
 import React from "react";
-import Sidebar from "components/navigation/Sidebar";
 import { useEffect, useState } from "react";
 import { connect, useDispatch } from "react-redux";
-import { Navigate, useParams, useNavigate, Link } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { get_blog } from "redux/actions/blog/blog";
-import DOMPurify from "dompurify";
 import { Editor } from "@tinymce/tinymce-react";
 import { get_categories } from "redux/actions/categories/categories";
-import slugify from "slugify";
 import AdminLayout from "hocs/layouts/AdminLayout";
 import { useMobile } from "context/mobile/mobileContext";
 import { ADD_MSJ_MODAL } from "redux/actions/modal/types";
@@ -33,7 +30,6 @@ function EditPost({
     category: "",
     time_read: "",
     status: "",
-    new_slug: "",
   });
 
   const {
@@ -44,7 +40,6 @@ function EditPost({
     category,
     time_read,
     status,
-    new_slug,
   } = formData;
 
   const onChange = (e) => {
@@ -116,7 +111,7 @@ function EditPost({
 
         console.log("res.data.post: ", res.data.post);
 
-        if (post.slug != res.data.post.slug) {
+        if (post.slug !== res.data.post.slug) {
           navigate(`/author_blog/${res.data.post.slug}`);
         } else {
           get_blog(res.data.post.slug);
@@ -149,6 +144,7 @@ function EditPost({
   useEffect(() => {
     get_blog(slug);
     get_categories();
+    // eslint-disable-next-line
   }, [slug]);
 
   useEffect(() => {
@@ -159,6 +155,7 @@ function EditPost({
         status: post.status,
       });
     }
+    // eslint-disable-next-line
   }, [post]);
 
   const editorConfig = {
@@ -255,7 +252,7 @@ function EditPost({
                   <h3>Current thumbnail</h3>
                   <img
                     className="f-height-s f-width-s fit-cover"
-                    src={`${process.env.REACT_APP_API_URL}/${post.thumbnail}`}
+                    src={`${post.thumbnail}`}
                     alt="post img"
                   />
                 </div>
@@ -344,20 +341,26 @@ function EditPost({
               </select>
             </div>
 
-            <div className="flex j-space a-center gap-ms">
-              <a href="/author_blog" className="btn-small third-color">
-                <h2>
-                  <i className="bx bx-x"></i>
-                </h2>
-                <h3>Back</h3>
-              </a>
-              <button type="submit" className="btn-small third-color">
-                <h2>
-                  <i className="bx bx-save"></i>
-                </h2>
-                <h3>Save</h3>
-              </button>
-            </div>
+            {!loading ? (
+              <div className="flex j-space a-center gap-ms">
+                <a href="/author_blog" className="btn-small third-color">
+                  <h2>
+                    <i className="bx bx-x"></i>
+                  </h2>
+                  <h3>Back</h3>
+                </a>
+                <button type="submit" className="btn-small third-color">
+                  <h2>
+                    <i className="bx bx-save"></i>
+                  </h2>
+                  <h3>Save</h3>
+                </button>
+              </div>
+            ) : (
+              <div className={`flex box-xxl j-end a-center gap-ms`}>
+                <h3>Loading</h3>
+              </div>
+            )}
           </>
         ) : (
           <h3>Loading</h3>

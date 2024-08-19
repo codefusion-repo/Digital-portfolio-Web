@@ -1,8 +1,8 @@
 import { connect } from "react-redux";
-import logo from "assets/img/sampleBusinessImage.jpeg";
 import { useEffect, useRef, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { useMobile } from "context/mobile/mobileContext";
+import logo from "assets/img/sampleBusinessImage.jpeg";
 
 function Navbar() {
   /*window.onscroll = function() {scrollfunction()}

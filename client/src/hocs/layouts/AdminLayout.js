@@ -56,7 +56,7 @@ function AdminLayout({
         </div>
       ) : (
         <section className="flex column a-center j-center four-bg gap-s third-color">
-          <h1>No Autenticado</h1>
+          <h1>No authenticated</h1>
           <a className="btn-middle" href="/">
             <h3>Go home</h3>
           </a>

@@ -54,6 +54,7 @@ class PortfolioFilterView(APIView):
                 
         except Exception as e:
             print('err:', e)
+            return Response({'error': 'No projects found'}, status=status.HTTP_404_NOT_FOUND)
 
 
 class PortfolioDetailView(APIView):
@@ -92,7 +93,7 @@ class AuthorProjectListView(APIView):
             return Response({'author_projects': serializer.data}, status=status.HTTP_200_OK)
             return paginator.get_paginated_response({'author_projects': serializer.data})
         else:
-            return Response({'error':'Projects does not exit'}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'error':'Projects do not exist'}, status=status.HTTP_404_NOT_FOUND)
 
 class CreateProjectView(APIView):
     permission_classes = (permissions.IsAdminUser, AuthorPermission,)
@@ -111,12 +112,12 @@ class CreateProjectView(APIView):
             )  
             return Response({'success': 'Proyecto creado.'}, status=status.HTTP_200_OK)
         except IntegrityError as error:
-            mensaje = f"Se produjo un error: {error}"
+            mensaje = f"An error occurred: {error}"
             mensaje_humanizado = ' '.join(word.capitalize() for word in str(mensaje).split('_'))
             print('mensaje:'+mensaje_humanizado)
             return Response({'error': mensaje_humanizado}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         except Exception as error:
-            mensaje = f"Se produjo un error: {error}"
+            mensaje = f"An error occurred: {error}"
             mensaje_humanizado = ' '.join(word.capitalize() for word in str(mensaje).split('_'))
             print('mensaje:'+mensaje_humanizado)
             return Response({'error': mensaje_humanizado}, status=status.HTTP_400_BAD_REQUEST)

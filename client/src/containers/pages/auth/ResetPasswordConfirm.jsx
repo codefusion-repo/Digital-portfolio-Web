@@ -1,5 +1,5 @@
 import Layout from "hocs/layouts/Layout";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { useState } from "react";
 import { connect, useDispatch } from "react-redux";
@@ -34,7 +34,6 @@ function ResetPasswordConfirm({ reset_password_confirm }) {
   const onSubmit = (e) => {
     e.preventDefault();
 
-    console.log("start");
     if (new_password === re_new_password) {
       const fetchNewPassword = async () => {
         const formData = new FormData();
@@ -66,7 +65,7 @@ function ResetPasswordConfirm({ reset_password_confirm }) {
               type: ADD_MSJ_MODAL,
               payload: {
                 showModal: true,
-                message: "Contraseña cambiada.",
+                message: "Password changed",
               },
             });
             navigate("/login");
@@ -82,7 +81,7 @@ function ResetPasswordConfirm({ reset_password_confirm }) {
               payload: {
                 showModal: true,
                 message:
-                  "La contraseña debe tener al menos 8 caracteres. Debe incluir letras y números.",
+                  "The password must be at least 8 characters long, It must include letters and numbers",
               },
             });
           }
@@ -98,7 +97,7 @@ function ResetPasswordConfirm({ reset_password_confirm }) {
             payload: {
               showModal: true,
               message:
-                "La contraseña debe tener al menos 8 caracteres. Debe incluir letras y números.",
+                "The password must be at least 8 characters long, It must include letters and numbers",
             },
           });
         }
@@ -115,7 +114,7 @@ function ResetPasswordConfirm({ reset_password_confirm }) {
       type: ADD_MODAL,
       payload: {
         showModal: true,
-        message: "Las contraseñas no coinciden.",
+        message: "Passwords do not match",
       },
     });
   }

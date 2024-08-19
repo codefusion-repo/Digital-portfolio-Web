@@ -1,20 +1,9 @@
 import axios from "axios";
 import React, { useEffect, useRef } from "react";
 import { connect, useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
-import {
-  get_author_blog_list,
-  get_author_blog_list_page,
-} from "redux/actions/blog/blog";
-import {
-  get_author_portfolio_list,
-  get_author_portfolio_list_page,
-} from "redux/actions/portfolio/portfolio";
-import {
-  ADD_DELETE_POST_MODAL,
-  ADD_MSJ_MODAL,
-  REMOVE_MODAL,
-} from "redux/actions/modal/types";
+import { get_author_blog_list } from "redux/actions/blog/blog";
+import { get_author_portfolio_list } from "redux/actions/portfolio/portfolio";
+import { ADD_MSJ_MODAL, REMOVE_MODAL } from "redux/actions/modal/types";
 
 function Modal({
   showModal,
@@ -22,9 +11,7 @@ function Modal({
   slug,
   element,
   get_author_blog_list,
-  get_author_blog_list_page,
   get_author_portfolio_list,
-  get_author_portfolio_list_page,
 }) {
   const dispatch = useDispatch();
 
@@ -77,7 +64,6 @@ function Modal({
           handleOpenModal(res.data.success);
 
           get_author_blog_list();
-          //get_author_blog_list_page(1);
         } else {
           handleOpenModal("Error when deleting the post");
         }
@@ -107,7 +93,6 @@ function Modal({
           handleOpenModal(res.data.success);
 
           get_author_portfolio_list();
-          // get_author_portfolio_list_page(1);
         } else {
           handleOpenModal("Error when deleting the project");
         }
@@ -138,6 +123,7 @@ function Modal({
     return () => {
       document.removeEventListener("click", (e) => detectOutClick(e));
     };
+    // eslint-disable-next-line
   }, []);
   return (
     <>
@@ -197,7 +183,5 @@ const mapStateToProps = (state) => ({
 });
 export default connect(mapStateToProps, {
   get_author_blog_list,
-  get_author_blog_list_page,
   get_author_portfolio_list,
-  get_author_portfolio_list_page,
 })(Modal);

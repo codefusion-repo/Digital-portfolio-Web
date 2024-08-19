@@ -1,20 +1,16 @@
 import axios from "axios";
 import React from "react";
-import Sidebar from "components/navigation/Sidebar";
 import { useEffect, useState } from "react";
 import { connect, useDispatch } from "react-redux";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Editor } from "@tinymce/tinymce-react";
 import { get_categories } from "redux/actions/categories/categories";
 import slugify from "slugify";
 import { ADD_MSJ_MODAL } from "redux/actions/modal/types";
-import AdminLayout from "hocs/layouts/AdminLayout";
 import { useMobile } from "context/mobile/mobileContext";
 
 function CreatePost({ isAuthenticated, get_categories, categories }) {
   const [previewThumbnail, setPreviewThumbnail] = useState();
-
-  const [selectedOption, setSelectedOption] = useState("");
 
   const [formData, setFormData] = useState({
     title: "",
@@ -66,68 +62,10 @@ function CreatePost({ isAuthenticated, get_categories, categories }) {
   };
   const handleOptionChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    setSelectedOption(e.target.value);
   };
 
   const handleEditorChange = (e, editor) => {
     setFormData({ ...formData, content: e });
-  };
-
-  const handleFilePicker = (callback, value, meta) => {
-    const input = document.createElement("input");
-    input.setAttribute("type", "file");
-    input.setAttribute("accept", "image/*");
-
-    input.onchange = () => {
-      const file = input.files[0];
-      const reader = new FileReader();
-
-      reader.onload = () => {
-        // Subir la imagen al servidor
-        uploadImage(file)
-          .then((imageUrl) => {
-            // Llamamos al callback con la URL de la imagen y otros metadatos (si es necesario)
-            callback(imageUrl, {
-              alt: file.name,
-            });
-          })
-          .catch((error) => {
-            console.error("Error al cargar la imagen:", error);
-            // Llamamos al callback de error si ocurre un error al subir la imagen
-            callback("", {});
-          });
-      };
-
-      reader.readAsDataURL(file);
-    };
-
-    input.click();
-  };
-
-  const uploadImage = async (imageFile) => {
-    const formData = new FormData();
-    formData.append("image", imageFile);
-
-    try {
-      const response = await axios.post(
-        `${process.env.REACT_APP_API_URL}/api/blog/upload/`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-
-      if (response.status === 200) {
-        const imageUrl = `${process.env.REACT_APP_API_URL}/${response.data.location}`;
-        return imageUrl;
-      } else {
-        throw new Error("Error al cargar la imagen");
-      }
-    } catch (error) {
-      throw new Error("Error al cargar la imagen");
-    }
   };
 
   const [loading, setLoading] = useState(false);
@@ -137,6 +75,17 @@ function CreatePost({ isAuthenticated, get_categories, categories }) {
   const onSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
+
+    if (!category || category.length === 0 || category === "default") {
+      handleOpenModal("Select the category of your publication");
+      setLoading(false);
+      return;
+    }
+    if (!status || status.length === 0 || status === "default") {
+      handleOpenModal("Select the status of your publication");
+      setLoading(false);
+      return;
+    }
 
     const formData = new FormData();
     formData.append("title", title);
@@ -148,43 +97,40 @@ function CreatePost({ isAuthenticated, get_categories, categories }) {
     formData.append("status", status);
     formData.append("slug", slug);
 
-    if (status !== "default" && category !== "default") {
-      const fetchData = async () => {
-        const config = {
-          headers: {
-            Authorization: `JWT ${localStorage.getItem("access")}`,
-            Accept: "application/json",
-          },
-        };
-
-        try {
-          const res = await axios.post(
-            `${process.env.REACT_APP_API_URL}/api/blog/create_post`,
-            formData,
-            config
-          );
-
-          if (res.status === 200) {
-            if (res.data.success) {
-              setLoading(false);
-              handleOpenModal(res.data.success);
-            }
-            if (res.data.error) {
-              handleOpenModal(res.data.error);
-            }
-          } else {
-            setLoading(false);
-            alert("Error al crear la publicación.");
-          }
-        } catch (err) {
-          setLoading(false);
-          alert("Error al crear la publicación.");
-        }
+    const fetchData = async () => {
+      const config = {
+        headers: {
+          Authorization: `JWT ${localStorage.getItem("access")}`,
+          Accept: "application/json",
+        },
       };
-      fetchData();
-    } else {
-      alert("Selecciona el estado de tu publicación.");
-    }
+
+      try {
+        const res = await axios.post(
+          `${process.env.REACT_APP_API_URL}/api/blog/create_post`,
+          formData,
+          config
+        );
+
+        if (res.status === 200) {
+          if (res.data.success) {
+            setLoading(false);
+            handleOpenModal(res.data.success);
+            navigate("/author_blog");
+          }
+          if (res.data.error) {
+            handleOpenModal(res.data.error);
+          }
+        } else {
+          setLoading(false);
+          handleOpenModal("Error creating the publication");
+        }
+      } catch (err) {
+        setLoading(false);
+        handleOpenModal("Error creating the publication");
+      }
+    };
+    fetchData();
   };
 
   const dispatch = useDispatch();
@@ -197,8 +143,6 @@ function CreatePost({ isAuthenticated, get_categories, categories }) {
         message: msj,
       },
     });
-
-    navigate("/author_blog");
   }
 
   useEffect(() => {
@@ -338,8 +282,10 @@ function CreatePost({ isAuthenticated, get_categories, categories }) {
                 className="select-large"
                 onChange={(e) => handleOptionChange(e)}
                 name="category"
+                defaultValue="default"
                 id="category"
               >
+                <option value="default">Select an option</option>
                 {categories &&
                   categories.map((category) => (
                     <option value={category.id}>{category.name}</option>
@@ -368,38 +314,48 @@ function CreatePost({ isAuthenticated, get_categories, categories }) {
                 type="select"
                 id="status"
                 name="status"
-                defaultValue="draft"
+                defaultValue="default"
                 required
               >
+                <option value="default">Select an option</option>
                 <option value="draft">Draft</option>
                 <option value="published">Publish</option>
               </select>
             </div>
-            <div
-              className={`flex box-xxl ${
-                location.pathname.includes("/create_post") ? "j-space" : "j-end"
-              } a-center gap-ms`}
-            >
-              {location.pathname.includes("/create_post") && (
-                <a href="/author_blog" className="btn-small third-color">
-                  <h2>
-                    <i className="bx bx-x"></i>
-                  </h2>
-                  <h3>Back</h3>
-                </a>
-              )}
 
-              <button
-                type="submit"
-                onClick={() => handleSlugChange({ title })}
-                className="btn-small third-color"
+            {!loading ? (
+              <div
+                className={`flex box-xxl ${
+                  location.pathname.includes("/create_post")
+                    ? "j-space"
+                    : "j-end"
+                } a-center gap-ms`}
               >
-                <h2>
-                  <i className="bx bx-save"></i>
-                </h2>
-                <h3>Save</h3>
-              </button>
-            </div>
+                {location.pathname.includes("/create_post") && (
+                  <a href="/author_blog" className="btn-small third-color">
+                    <h2>
+                      <i className="bx bx-x"></i>
+                    </h2>
+                    <h3>Back</h3>
+                  </a>
+                )}
+
+                <button
+                  type="submit"
+                  onClick={() => handleSlugChange({ title })}
+                  className="btn-small third-color"
+                >
+                  <h2>
+                    <i className="bx bx-save"></i>
+                  </h2>
+                  <h3>Save</h3>
+                </button>
+              </div>
+            ) : (
+              <div className={`flex box-xxl j-end a-center gap-ms`}>
+                <h3>Loading</h3>
+              </div>
+            )}
           </>
         ) : (
           <h3>Loading</h3>

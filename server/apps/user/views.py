@@ -53,7 +53,7 @@ class send_password_reset_email(APIView):
         if User.objects.filter(email=email).exists():
             user = User.objects.get(email=email)
         else:
-            return  Response({'detail': 'El usuario no existe.'}, status=status.HTTP_400_BAD_REQUEST)        
+            return  Response({'detail': 'user does not exist'}, status=status.HTTP_400_BAD_REQUEST)        
         
         # Genera el token de restablecimiento de contraseña
         token = default_token_generator.make_token(user)
@@ -129,11 +129,11 @@ class CustomPasswordResetConfirmView(APIView):
             if User.objects.filter(pk=user_id).exists():
                 user = User.objects.get(pk=user_id)
             else:
-                return  Response({'detail': 'El usuario no existe.'}, status=status.HTTP_400_BAD_REQUEST)
+                return  Response({'detail': 'User does not exist'}, status=status.HTTP_400_BAD_REQUEST)
             # Maneja el caso si el usuario no existe
         
             if token != user.token:
-                return  Response({'detail': 'Token de restablecimiento no valido.'}, status=status.HTTP_400_BAD_REQUEST)
+                return  Response({'detail': 'Invalid reset token'}, status=status.HTTP_400_BAD_REQUEST)
 
             # Verifica si el token de restablecimiento de contraseña es válido
             if user.token_expire < timezone.now():
@@ -141,7 +141,7 @@ class CustomPasswordResetConfirmView(APIView):
                 user.token = ''
                 user.token_expire = None
                 user.save()
-                return  Response({'detail': 'Token de restablecimiento no valido.'}, status=status.HTTP_400_BAD_REQUEST)
+                return  Response({'detail': 'Invalid reset token'}, status=status.HTTP_400_BAD_REQUEST)
             
             # Procesa el restablecimiento de contraseña utilizando el formulario predeterminado
             user.set_password(data['new_password'])
@@ -153,4 +153,4 @@ class CustomPasswordResetConfirmView(APIView):
             print("err: ", e)
         
         # Redirige a la página de restablecimiento de contraseña exitoso
-        return Response({'detail': 'Contraseña restablecida.'}, status=status.HTTP_200_OK)
+        return Response({'detail': 'Password updated'}, status=status.HTTP_200_OK)

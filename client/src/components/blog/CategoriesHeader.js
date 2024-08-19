@@ -1,4 +1,4 @@
-import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import { useMobile } from "context/mobile/mobileContext";
 
@@ -21,12 +21,14 @@ function CategoriesHeader({ categories }) {
     }
   };
 
+  const [error, setError] = useState("");
   function displayError() {
-    let error = "Debes ingresar al menos 1 carácter.";
-    let e = document.getElementById("error");
+    let error = "You must enter at least 1 character";
+    setError(error);
+    //let e = document.getElementById("error");
 
-    e.textContent = error;
-    console.log("error");
+    //e.textContent = error;
+    //console.log("error");
   }
 
   const [open, setOpen] = useState(false);
@@ -160,7 +162,7 @@ function CategoriesHeader({ categories }) {
             </h2>
           </button>
         </form>
-        <h5 className="padding-l-xxs" id="error"></h5>
+        <h5 className="padding-l-xxs">{error}</h5>
       </div>
     </header>
   );

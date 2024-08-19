@@ -88,7 +88,7 @@ class CreateDB():
                         project.thumbnail.save(
                         "sampleProjectImage_with_mask.jpeg", File(buffer))
 
-                    content = getContent(title, f"http://127.0.0.1:8000{project.thumbnail.url}")
+                    content = getContent(title, f"{project.thumbnail.url}")
                     project.content = content
                     project.save()
 
@@ -158,12 +158,12 @@ class CreateDB():
                         post.thumbnail.save(
                         "samplePostImage_with_mask.jpeg", File(buffer))
 
-                    content = getContent(title, f"http://127.0.0.1:8000{post.thumbnail.url}")
+                    content = getContent(title, f"{post.thumbnail.url}")
                     post.content = content
                     post.save()
 
-
         print("Posts created successfully")
+        
     try:
         user = createSuperUser()
         createProjects(user)

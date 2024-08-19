@@ -1,14 +1,10 @@
 import axios from "axios";
 import React from "react";
-import Sidebar from "components/navigation/Sidebar";
 import { useEffect, useState } from "react";
 import { connect, useDispatch } from "react-redux";
-import { Navigate, useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { get_project_detail } from "redux/actions/portfolio/portfolio";
-import DOMPurify from "dompurify";
 import { Editor } from "@tinymce/tinymce-react";
-import { get_categories } from "redux/actions/categories/categories";
-import slugify from "slugify";
 import AdminLayout from "hocs/layouts/AdminLayout";
 import { useMobile } from "context/mobile/mobileContext";
 import { ADD_MSJ_MODAL } from "redux/actions/modal/types";
@@ -26,11 +22,9 @@ function EditProject({ isAuthenticated, get_project_detail, project }) {
     content: "",
     category: "",
     status: "",
-    new_slug: "",
   });
 
-  const { title, description, thumbnail, content, category, status, new_slug } =
-    formData;
+  const { title, description, thumbnail, content, category, status } = formData;
 
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -99,7 +93,7 @@ function EditProject({ isAuthenticated, get_project_detail, project }) {
 
         console.log("res.data.project: ", res.data.project);
 
-        if (project.slug != res.data.project.slug) {
+        if (project.slug !== res.data.project.slug) {
           navigate(`/author_portfolio/${res.data.project.slug}`);
         } else {
           get_project_detail(res.data.project.slug);
@@ -130,6 +124,7 @@ function EditProject({ isAuthenticated, get_project_detail, project }) {
 
   useEffect(() => {
     get_project_detail(slug);
+    // eslint-disable-next-line
   }, [slug]);
 
   useEffect(() => {
@@ -140,6 +135,7 @@ function EditProject({ isAuthenticated, get_project_detail, project }) {
         status: project.status,
       });
     }
+    // eslint-disable-next-line
   }, [project]);
 
   const editorConfig = {
@@ -236,7 +232,7 @@ function EditProject({ isAuthenticated, get_project_detail, project }) {
                   <h3>Current thumbnail</h3>
                   <img
                     className="f-height-s f-width-s fit-cover"
-                    src={`${process.env.REACT_APP_API_URL}/${project.thumbnail}`}
+                    src={`${project.thumbnail}`}
                     alt="post img"
                   />
                 </div>
@@ -315,20 +311,26 @@ function EditProject({ isAuthenticated, get_project_detail, project }) {
               </select>
             </div>
 
-            <div className="flex j-space a-center gap-ms">
-              <a href="/author_portfolio" className="btn-small third-color">
-                <h2>
-                  <i className="bx bx-x"></i>
-                </h2>
-                <h3>Back</h3>
-              </a>
-              <button type="submit" className="btn-small third-color">
-                <h2>
-                  <i className="bx bx-save"></i>
-                </h2>
-                <h3>Save</h3>
-              </button>
-            </div>
+            {!loading ? (
+              <div className="flex j-space a-center gap-ms">
+                <a href="/author_portfolio" className="btn-small third-color">
+                  <h2>
+                    <i className="bx bx-x"></i>
+                  </h2>
+                  <h3>Back</h3>
+                </a>
+                <button type="submit" className="btn-small third-color">
+                  <h2>
+                    <i className="bx bx-save"></i>
+                  </h2>
+                  <h3>Save</h3>
+                </button>
+              </div>
+            ) : (
+              <div className={`flex box-xxl j-end a-center gap-ms`}>
+                <h3>Loading</h3>
+              </div>
+            )}
           </>
         ) : (
           <h3>Loading</h3>

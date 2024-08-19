@@ -30,7 +30,7 @@ function Home() {
 
           <div className="flex gap-s">
             <h1>We create</h1>
-            <h1 className="multiple-text second-color"></h1>
+            <h1 className="multiple-text second-color">.</h1>
           </div>
 
           <p className="third-color">
@@ -41,12 +41,22 @@ function Home() {
           </p>
 
           <div className="flex gap-l box-xxl j-end padding-s">
-            <a className="btn-page" target="_blank" href="https://facebook.com">
+            <a
+              className="btn-page"
+              target="_blank"
+              rel="noreferrer"
+              href="https://facebook.com"
+            >
               <h3>
                 <i className="bx bxl-facebook"></i>
               </h3>
             </a>
-            <a className="btn-page" target="_blank" href="https://twitter.com">
+            <a
+              className="btn-page"
+              target="_blank"
+              rel="noreferrer"
+              href="https://twitter.com"
+            >
               <h3>
                 <i className="bx bxl-twitter"></i>
               </h3>
@@ -54,6 +64,7 @@ function Home() {
             <a
               className="btn-page"
               target="_blank"
+              rel="noreferrer"
               href="https://instagram.com"
             >
               <h3>

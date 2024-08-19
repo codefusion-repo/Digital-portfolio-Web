@@ -3,10 +3,10 @@
 /* ROOT COLORS */
 :root {
     /* BACKGROUND COLORS */
-    --base-bg: rgb(74, 74, 74);
+    --base-bg: #4a4a4a;
     --second-bg: #0bc5bf;
     --third-bg: #333333;
-    --four-bg: rgb(221, 221, 221);
+    --four-bg: #dddddd;
     --solid-bg: rgba(26, 26, 26, 0.75);
 
     /* TEXT COLORS */

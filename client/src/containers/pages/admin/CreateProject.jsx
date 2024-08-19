@@ -1,19 +1,15 @@
 import axios from "axios";
 import React from "react";
-import Sidebar from "components/navigation/Sidebar";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { connect, useDispatch } from "react-redux";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Editor } from "@tinymce/tinymce-react";
 import slugify from "slugify";
 import { ADD_MSJ_MODAL } from "redux/actions/modal/types";
-import AdminLayout from "hocs/layouts/AdminLayout";
 import { useMobile } from "context/mobile/mobileContext";
 
 function CreateProject({ isAuthenticated }) {
   const [previewThumbnail, setPreviewThumbnail] = useState();
-
-  const [selectedOption, setSelectedOption] = useState("");
 
   const [formData, setFormData] = useState({
     title: "",
@@ -52,68 +48,10 @@ function CreateProject({ isAuthenticated }) {
   };
   const handleOptionChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    setSelectedOption(e.target.value);
   };
 
   const handleEditorChange = (e, editor) => {
     setFormData({ ...formData, content: e });
-  };
-
-  const handleFilePicker = (callback, value, meta) => {
-    const input = document.createElement("input");
-    input.setAttribute("type", "file");
-    input.setAttribute("accept", "image/*");
-
-    input.onchange = () => {
-      const file = input.files[0];
-      const reader = new FileReader();
-
-      reader.onload = () => {
-        // Subir la imagen al servidor
-        uploadImage(file)
-          .then((imageUrl) => {
-            // Llamamos al callback con la URL de la imagen y otros metadatos (si es necesario)
-            callback(imageUrl, {
-              alt: file.name,
-            });
-          })
-          .catch((error) => {
-            console.error("Error al cargar la imagen:", error);
-            // Llamamos al callback de error si ocurre un error al subir la imagen
-            callback("", {});
-          });
-      };
-
-      reader.readAsDataURL(file);
-    };
-
-    input.click();
-  };
-
-  const uploadImage = async (imageFile) => {
-    const formData = new FormData();
-    formData.append("image", imageFile);
-
-    try {
-      const response = await axios.post(
-        `${process.env.REACT_APP_API_URL}/api/blog/upload/`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-
-      if (response.status === 200) {
-        const imageUrl = `${process.env.REACT_APP_API_URL}/${response.data.location}`;
-        return imageUrl;
-      } else {
-        throw new Error("Error al cargar la imagen");
-      }
-    } catch (error) {
-      throw new Error("Error al cargar la imagen");
-    }
   };
 
   const [loading, setLoading] = useState(false);
@@ -124,7 +62,18 @@ function CreateProject({ isAuthenticated }) {
     e.preventDefault();
     setLoading(true);
 
+    if (!category || category.length === 0 || category === "default") {
+      handleOpenModal("Select the category of your project");
+      setLoading(false);
+      return;
+    }
+    if (!status || status.length === 0 || status === "default") {
+      handleOpenModal("Select the status of your project");
+      setLoading(false);
+      return;
+    }
     const formData = new FormData();
+
     formData.append("title", title);
     formData.append("description", description);
     formData.append("thumbnail", thumbnail);
@@ -133,39 +82,34 @@ function CreateProject({ isAuthenticated }) {
     formData.append("status", status);
     formData.append("slug", slug);
 
-    if (status !== "default" && category !== "default") {
-      const fetchData = async () => {
-        const config = {
-          headers: {
-            Authorization: `JWT ${localStorage.getItem("access")}`,
-            Accept: "application/json",
-          },
-        };
-        try {
-          const res = await axios.post(
-            `${process.env.REACT_APP_API_URL}/api/portfolio/create_project`,
-            formData,
-            config
-          );
-
-          if (res.status === 200) {
-            if (res.data.success) {
-              setLoading(false);
-              handleOpenModal(res.data.success);
-            }
-          } else {
-            setLoading(false);
-            alert("Error al crear la proyecto.");
-          }
-        } catch (err) {
-          setLoading(false);
-          alert("Error al crear la proyecto.");
-        }
+    const fetchData = async () => {
+      const config = {
+        headers: {
+          Authorization: `JWT ${localStorage.getItem("access")}`,
+          Accept: "application/json",
+        },
       };
-      fetchData();
-    } else {
-      alert("Selecciona el estado de tu proyecto.");
-    }
+      try {
+        const res = await axios.post(
+          `${process.env.REACT_APP_API_URL}/api/portfolio/create_project`,
+          formData,
+          config
+        );
+
+        if (res.status === 200) {
+          setLoading(false);
+          handleOpenModal(res.data.success);
+          navigate("/author_portfolio");
+        } else {
+          setLoading(false);
+          handleOpenModal("Error creating the project");
+        }
+      } catch (err) {
+        setLoading(false);
+        handleOpenModal("Error creating the project");
+      }
+    };
+    fetchData();
   };
 
   const dispatch = useDispatch();
@@ -178,8 +122,6 @@ function CreateProject({ isAuthenticated }) {
         message: msj,
       },
     });
-
-    navigate("/author_portfolio");
   }
 
   const editorConfig = {
@@ -315,8 +257,9 @@ function CreateProject({ isAuthenticated }) {
                 onChange={(e) => handleOptionChange(e)}
                 name="category"
                 id="category"
-                defaultValue="sp-1"
+                defaultValue="default"
               >
+                <option value="default">Select an option</option>
                 <option value="sp-1">Sample category 1</option>
                 <option value="sp-2">Sample category 2</option>
                 <option value="sp-3">Sample category 3</option>
@@ -332,9 +275,10 @@ function CreateProject({ isAuthenticated }) {
                 type="select"
                 id="status"
                 name="status"
-                defaultValue="drafted"
+                defaultValue="default"
                 required
               >
+                <option value="default">Select an option</option>
                 <option value="drafted">Draft</option>
                 <option value="pre_production">Pre-production</option>
                 <option value="production">Production</option>
@@ -343,33 +287,38 @@ function CreateProject({ isAuthenticated }) {
               </select>
             </div>
 
-            <div
-              className={`flex box-xxl ${
-                location.pathname.includes("/create_project")
-                  ? "j-space"
-                  : "j-end"
-              } a-center gap-ms`}
-            >
-              {location.pathname.includes("/create_project") && (
-                <a href="/author_portfolio" className="btn-small third-color">
-                  <h2>
-                    <i className="bx bx-x"></i>
-                  </h2>
-                  <h3>Back</h3>
-                </a>
-              )}
-
-              <button
-                type="submit"
-                onClick={() => handleSlugChange({ title })}
-                className="btn-small third-color"
+            {!loading ? (
+              <div
+                className={`flex box-xxl ${
+                  location.pathname.includes("/create_project")
+                    ? "j-space"
+                    : "j-end"
+                } a-center gap-ms`}
               >
-                <h2>
-                  <i className="bx bx-save"></i>
-                </h2>
-                <h3>Save</h3>
-              </button>
-            </div>
+                {location.pathname.includes("/create_project") && (
+                  <a href="/author_portfolio" className="btn-small third-color">
+                    <h2>
+                      <i className="bx bx-x"></i>
+                    </h2>
+                    <h3>Back</h3>
+                  </a>
+                )}
+                <button
+                  type="submit"
+                  onClick={() => handleSlugChange({ title })}
+                  className="btn-small third-color"
+                >
+                  <h2>
+                    <i className="bx bx-save"></i>
+                  </h2>
+                  <h3>Save</h3>
+                </button>
+              </div>
+            ) : (
+              <div className={`flex box-xxl j-end a-center gap-ms`}>
+                <h3>Loading</h3>
+              </div>
+            )}
           </>
         ) : (
           <>

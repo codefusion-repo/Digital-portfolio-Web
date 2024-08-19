@@ -19,6 +19,7 @@ export default function Pagination({
     setActive(1);
     setCurrentPage(1);
     setCount(data?.length ? data.length : 0);
+    // eslint-disable-next-line
   }, [data]);
 
   const visitShopPage = (page) => {

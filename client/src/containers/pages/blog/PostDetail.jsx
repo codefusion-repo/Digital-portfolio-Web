@@ -28,10 +28,7 @@ function PostDetail({ get_blog, post }) {
             } column third-color`}
           >
             <div className="box-xxl f-height-ml second-border-b">
-              <img
-                src={`${process.env.REACT_APP_API_URL}/${post.thumbnail}`}
-                alt="post img"
-              />
+              <img src={`${post.thumbnail}`} alt="post img" />
             </div>
             <div
               className={`flex ${

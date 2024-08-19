@@ -17,9 +17,10 @@ class sendContactEmail(APIView):
         mailjet = Client(auth=(api_key, api_secret), version='v3.1')
         body = ''
         if data['mobile_number']:
-                body = f"Número de celular: {data['mobile_number']} <br> Copia del Mensaje: {data['message']}"
+                body = f"{data['subject']} <br> {data['message']} <br> Phone: {data['mobile_number']} "
         else:
-                body = f"Copia del Mensaje: {data['message']}"
+                body = f"{data['subject']} <br> {data['message']}"
+
         from_email = os.environ.get('EMAIL_HOST_USER')
         current_email = data['email']
         subject = "Example contact e-mail - Digital portfolio Web"
@@ -37,10 +38,10 @@ class sendContactEmail(APIView):
                         "Email": from_email,
                         "Name":"Copy email"
                     }],
-			       "TemplateID": 6175543,
+			       "TemplateID": 6173534,
 			       "TemplateLanguage": True,
 			       "Subject": subject,
-			       "Variables": {"email":current_email, 'subject':subject, 'body':body}
+			       "Variables": {"name": data['complete_name'], 'msj': body}
                 }]
                }
         result = mailjet.send.create(data=data)

@@ -2,36 +2,17 @@ import Layout from "hocs/layouts/Layout";
 import { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { get_categories } from "redux/actions/categories/categories";
-import { get_blog_list, get_blog_list_page } from "redux/actions/blog/blog";
+import { get_blog_list } from "redux/actions/blog/blog";
 import { connect } from "react-redux";
-import { useParams } from "react-router-dom";
 import CategoriesHeader from "components/blog/CategoriesHeader";
 import PostBody from "components/blog/PostsBody";
 
-function Blog({
-  get_categories,
-  get_blog_list,
-  get_blog_list_page,
-  categories,
-  posts,
-  count,
-  next,
-  previous,
-}) {
-  let params = useParams();
-  let currentPage = params.currentPage;
-
-  if (currentPage) {
-  } else {
-    currentPage = 1;
-  }
-
+function Blog({ get_categories, get_blog_list, categories, posts }) {
   useEffect(() => {
     window.scrollTo(0, 0);
     get_categories();
     get_blog_list();
-    // get_blog_list_page(currentPage);
-  }, [get_categories, get_blog_list, get_blog_list_page, currentPage]);
+  }, [get_categories, get_blog_list]);
 
   return (
     <Layout>
@@ -58,12 +39,8 @@ function Blog({
 const mapStateToProps = (state) => ({
   categories: state.categories.categories,
   posts: state.blog.blog_list,
-  count: state.blog.count,
-  next: state.blog.next,
-  previous: state.blog.previous,
 });
 export default connect(mapStateToProps, {
   get_categories,
   get_blog_list,
-  get_blog_list_page,
 })(Blog);

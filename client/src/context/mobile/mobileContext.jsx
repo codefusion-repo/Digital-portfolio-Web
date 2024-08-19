@@ -1,13 +1,7 @@
 "use client";
 // mobileContext.tsx
 
-import React, {
-  ReactNode,
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 
 // Crear MobileContext
 const MobileContext = createContext(null);

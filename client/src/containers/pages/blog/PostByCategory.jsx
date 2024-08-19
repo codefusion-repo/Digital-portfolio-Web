@@ -2,10 +2,7 @@ import Layout from "hocs/layouts/Layout";
 import { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { get_categories } from "redux/actions/categories/categories";
-import {
-  get_blog_list_by_category,
-  get_blog_list_by_category_page,
-} from "redux/actions/blog/blog";
+import { get_blog_list_by_category } from "redux/actions/blog/blog";
 import { connect } from "react-redux";
 import { useParams } from "react-router-dom";
 import CategoriesHeader from "components/blog/CategoriesHeader";
@@ -14,37 +11,19 @@ import PostBody from "components/blog/PostsBody";
 function PostByCategory({
   get_categories,
   get_blog_list_by_category,
-  get_blog_list_by_category_page,
   categories,
   posts,
-  count,
-  next,
-  previous,
 }) {
   const params = useParams();
   const slug = params.slug;
   const slug_ = slug.replace(/-/g, " ");
   const slug__ = slug_.charAt(0).toUpperCase() + slug_.slice(1);
 
-  let paramss = useParams();
-  let currentPage = paramss.currentPage;
-  if (currentPage) {
-  } else {
-    currentPage = 1;
-  }
-
   useEffect(() => {
     window.scrollTo(0, 0);
     get_categories();
     get_blog_list_by_category(slug);
-    //get_blog_list_by_category_page(slug, currentPage);
-  }, [
-    get_categories,
-    get_blog_list_by_category,
-    get_blog_list_by_category_page,
-    currentPage,
-    slug,
-  ]);
+  }, [get_categories, get_blog_list_by_category, slug]);
   return (
     <Layout>
       <Helmet>
@@ -69,12 +48,8 @@ function PostByCategory({
 const mapStateToProps = (state) => ({
   categories: state.categories.categories,
   posts: state.blog.blog_list_by_category,
-  count: state.blog.count,
-  next: state.blog.next,
-  previous: state.blog.previous,
 });
 export default connect(mapStateToProps, {
   get_categories,
   get_blog_list_by_category,
-  get_blog_list_by_category_page,
 })(PostByCategory);
