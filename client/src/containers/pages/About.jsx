@@ -7,9 +7,6 @@ import { useMobile } from "context/mobile/mobileContext";
 function About() {
   const { device } = useMobile();
 
-  React.useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
   return (
     <Layout>
       <Helmet>

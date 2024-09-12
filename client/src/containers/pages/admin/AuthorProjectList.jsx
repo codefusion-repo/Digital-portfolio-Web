@@ -31,8 +31,6 @@ function AuthorProjectList({
   };
 
   React.useEffect(() => {
-    window.scrollTo(0, 0);
-
     get_author_portfolio_list();
   }, [get_author_portfolio_list]);
 

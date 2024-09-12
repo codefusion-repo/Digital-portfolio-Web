@@ -11,10 +11,6 @@ function Contact() {
 
   const [loading, setLoading] = useState(false);
 
-  React.useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
   const [formData, setFormData] = useState({
     complete_name: "",
     email: "",

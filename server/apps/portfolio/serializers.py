@@ -28,8 +28,11 @@ class ProjectsListSerializer(serializers.ModelSerializer):
             'title',
             'slug',
             'thumbnail',
+            'author',
             'description',
+            'content',
+            'published',
             'views',
-            'category',
+            'category', 
             'status'
         ]

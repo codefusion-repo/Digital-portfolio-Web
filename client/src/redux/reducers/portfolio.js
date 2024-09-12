@@ -1,6 +1,8 @@
 import {
   GET_AUTHOR_PORTFOLIO_LIST_FAIL,
   GET_AUTHOR_PORTFOLIO_LIST_SUCCESS,
+  GET_PORTFOLIO_FILTER_FAIL,
+  GET_PORTFOLIO_FILTER_SUCCESS,
   GET_PORTFOLIO_LIST_FAIL,
   GET_PORTFOLIO_LIST_SUCCESS,
   GET_PROJECT_FAIL,
@@ -10,6 +12,7 @@ import {
 const initialState = {
   portfolio_list: null,
   author_projects: null,
+  projects: null,
   project: null,
 };
 
@@ -25,9 +28,19 @@ export default function blog(state = initialState, action) {
     case GET_PORTFOLIO_LIST_SUCCESS:
       return {
         ...state,
-        portfolio_list: payload.projects,
+        portfolio_list: payload,
+        projects: payload,
       };
-
+    case GET_PORTFOLIO_FILTER_FAIL:
+      return {
+        ...state,
+        portfolio_list: payload,
+      };
+    case GET_PORTFOLIO_FILTER_SUCCESS:
+      return {
+        ...state,
+        portfolio_list: payload,
+      };
     case GET_PROJECT_SUCCESS:
       return {
         ...state,

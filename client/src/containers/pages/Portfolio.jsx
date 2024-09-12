@@ -2,20 +2,12 @@ import Layout from "hocs/layouts/Layout";
 import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { connect } from "react-redux";
-import { get_portfolio_list } from "redux/actions/portfolio/portfolio";
 import { Link, useParams } from "react-router-dom";
 import FiltersHeader from "components/portfolio/FiltersHeader";
 import Pagination from "components/pagination/Pagination";
 
-function Portfolio({ get_portfolio_list, portfolio_list }) {
+function Portfolio({ portfolio_list }) {
   const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-
-    get_portfolio_list();
-    // eslint-disable-next-line
-  }, []);
 
   let params = useParams();
   const [currentPage, setCurrentPage] = useState(
@@ -94,6 +86,4 @@ function Portfolio({ get_portfolio_list, portfolio_list }) {
 const mapStateToProps = (state) => ({
   portfolio_list: state.portfolio.portfolio_list,
 });
-export default connect(mapStateToProps, {
-  get_portfolio_list,
-})(Portfolio);
+export default connect(mapStateToProps, {})(Portfolio);

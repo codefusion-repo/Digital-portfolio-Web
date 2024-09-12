@@ -1,22 +1,24 @@
 import { connect } from "react-redux";
 import Layout from "hocs/layouts/Layout";
 import { Link, useParams } from "react-router-dom";
-import { useEffect } from "react";
-import { get_blog } from "redux/actions/blog/blog";
+import { useEffect, useState } from "react";
+// import { get_blog } from "redux/actions/blog/blog";
 import moment from "moment";
 import DOMPurify from "dompurify";
 import { useMobile } from "context/mobile/mobileContext";
 
-function PostDetail({ get_blog, post }) {
+function PostDetail({ posts }) {
   const { device } = useMobile();
+  const [post, setPost] = useState(undefined);
 
   const params = useParams();
   const slug = params.slug;
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-    get_blog(slug);
-  }, [get_blog, slug]);
+    if (posts && !post && slug) {
+      setPost(posts.find((p) => p.slug === slug));
+    }
+  }, [posts, post, slug]);
 
   return (
     <Layout>
@@ -77,9 +79,7 @@ function PostDetail({ get_blog, post }) {
 }
 
 const mapStateToProps = (state) => ({
-  post: state.blog.post,
+  posts: state.blog.blog_list,
 });
 
-export default connect(mapStateToProps, {
-  get_blog,
-})(PostDetail);
+export default connect(mapStateToProps, {})(PostDetail);

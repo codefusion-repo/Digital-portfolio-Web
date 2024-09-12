@@ -1516,6 +1516,7 @@ input::-webkit-outer-spin-button {
     text-shadow: none;
     cursor: pointer;
     transition: .3s ease;
+    color: var(--base-text);
 }
 .link-out:hover {
     text-shadow: 0 0 0.75rem var(--second-text);

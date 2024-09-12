@@ -12,11 +12,11 @@ function Search({ get_categories, get_search_blog, categories, posts }) {
   const params = useParams();
   const term = params.term;
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
+  /*useEffect(() => {
     get_categories();
     get_search_blog(term);
-  }, [get_categories, get_search_blog, term]);
+  }, [get_categories, get_search_blog, term]);*/
+
   return (
     <Layout>
       <Helmet>

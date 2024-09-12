@@ -1,35 +1,8 @@
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import { useMobile } from "context/mobile/mobileContext";
 
-function CategoriesHeader({ categories }) {
+function CategoriesHeader({ category, search, categories, onSubmit }) {
   const { device } = useMobile();
-  const location = useLocation();
-  const navigate = useNavigate();
-
-  const [term, setTerm] = useState("");
-  const handleChange = (e) => {
-    setTerm(e.target.value);
-  };
-  const onSubmit = (e) => {
-    e.preventDefault();
-    if (term.length >= 1) {
-      setTimeout(() => navigate("/search/" + term), 0.2);
-      setTerm("");
-    } else {
-      displayError();
-    }
-  };
-
-  const [error, setError] = useState("");
-  function displayError() {
-    let error = "You must enter at least 1 character";
-    setError(error);
-    //let e = document.getElementById("error");
-
-    //e.textContent = error;
-    //console.log("error");
-  }
 
   const [open, setOpen] = useState(false);
 
@@ -87,27 +60,23 @@ function CategoriesHeader({ categories }) {
               ref={headerBoxRef}
               className="flex absolute f-top f-left box-xxl column a-center j-start base-border-b gap-xl navbar-m-s padding-m third-bg"
             >
-              <NavLink
-                to="/blog"
-                className={`${
-                  location.pathname.includes("/blog") ? "link active" : "link"
-                }`}
+              <button
+                onClick={() => onSubmit("category", "all")}
+                className={`${category === "all" ? "link active" : "link"}`}
               >
                 All
-              </NavLink>
+              </button>
               {categories &&
-                categories.map((category) => (
-                  <NavLink
-                    to={`/category/${category.slug}`}
-                    key={category.id}
+                categories.map((c) => (
+                  <button
+                    onClick={() => onSubmit("category", c.slug)}
+                    key={c.id}
                     className={`${
-                      location.pathname === `category/${category.slug}`
-                        ? "link active"
-                        : "link"
+                      category === c.slug ? "link active" : "link"
                     }`}
                   >
-                    {category.name}
-                  </NavLink>
+                    {c.name}
+                  </button>
                 ))}
             </nav>
           )}
@@ -115,42 +84,32 @@ function CategoriesHeader({ categories }) {
       )}
       {device > 2 && (
         <nav className="flex box-xxl f-height-full a-center j-start gap-xl">
-          <NavLink
-            to="/blog"
-            className={`${
-              location.pathname.includes("/blog") ? "link active" : "link"
-            }`}
+          <button
+            onClick={() => onSubmit("category", "all")}
+            className={`${category === "all" ? "link active" : "link"}`}
           >
             All
-          </NavLink>
+          </button>
 
           {categories &&
-            categories.map((category) => (
-              <NavLink
-                to={`/category/${category.slug}`}
-                key={category.id}
-                className={`${
-                  location.pathname === `category/${category.slug}`
-                    ? "link active"
-                    : "link"
-                }`}
+            categories.map((c) => (
+              <button
+                onClick={() => onSubmit("category", c.slug)}
+                key={c.id}
+                className={`${category === c.slug ? "link active" : "link"}`}
               >
-                {category.name}
-              </NavLink>
+                {c.name}
+              </button>
             ))}
         </nav>
       )}
 
       <div className="flex box-s a-end j-center gap-xxs column">
-        <form
-          className="flex gap-xs"
-          id="search-form"
-          onSubmit={(e) => onSubmit(e)}
-        >
+        <form className="flex gap-xs" id="search-form">
           <input
             className="input-middle"
-            onChange={(e) => handleChange(e)}
-            value={term}
+            onChange={(e) => onSubmit("search", e.target.value)}
+            value={search}
             id="search"
             name="search"
             type="search"
@@ -162,7 +121,7 @@ function CategoriesHeader({ categories }) {
             </h2>
           </button>
         </form>
-        <h5 className="padding-l-xxs">{error}</h5>
+        {/* <h5 className="padding-l-xxs">{error}</h5>*/}
       </div>
     </header>
   );

@@ -108,7 +108,7 @@ class SearchBlogView(APIView):
         serializer = PostListSerializer(matches, many=True)
 
         return Response({'filtered_posts': serializer.data}, status=status.HTTP_200_OK)
-        return paginator.get_paginated_response({'filtered_posts': serializer.data})
+        # return paginator.get_paginated_response({'filtered_posts': serializer.data})
     
 class AuthorPostListView(APIView):
     permission_classes = (permissions.IsAdminUser, IsPostAuthorOrReadOnly,)

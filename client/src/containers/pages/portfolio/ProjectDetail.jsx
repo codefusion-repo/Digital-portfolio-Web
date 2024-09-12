@@ -1,22 +1,23 @@
 import { connect } from "react-redux";
 import Layout from "hocs/layouts/Layout";
 import { useParams } from "react-router-dom";
-import { useEffect } from "react";
-import { get_project_detail } from "redux/actions/portfolio/portfolio";
+import { useEffect, useState } from "react";
 import moment from "moment";
 import DOMPurify from "dompurify";
 import { useMobile } from "context/mobile/mobileContext";
 
-function ProjectDetail({ get_project_detail, project }) {
+function ProjectDetail({ projects }) {
   const { device } = useMobile();
+  const [project, setProject] = useState(undefined);
 
   const params = useParams();
   const slug = params.slug;
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-    get_project_detail(slug);
-  }, [get_project_detail, slug]);
+    if (projects && !project && slug) {
+      setProject(projects.find((p) => p.slug === slug));
+    }
+  }, [projects, project, slug]);
 
   return (
     <Layout>
@@ -77,9 +78,7 @@ function ProjectDetail({ get_project_detail, project }) {
 }
 
 const mapStateToProps = (state) => ({
-  project: state.portfolio.project,
+  projects: state.portfolio.projects,
 });
 
-export default connect(mapStateToProps, {
-  get_project_detail,
-})(ProjectDetail);
+export default connect(mapStateToProps, {})(ProjectDetail);

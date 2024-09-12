@@ -1,5 +1,5 @@
 import Layout from "hocs/layouts/Layout";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { get_categories } from "redux/actions/categories/categories";
 import { get_blog_list_by_category } from "redux/actions/blog/blog";
@@ -8,22 +8,19 @@ import { useParams } from "react-router-dom";
 import CategoriesHeader from "components/blog/CategoriesHeader";
 import PostBody from "components/blog/PostsBody";
 
-function PostByCategory({
-  get_categories,
-  get_blog_list_by_category,
-  categories,
-  posts,
-}) {
+function PostByCategory({ categories, blog_list }) {
+  const [posts, setPosts] = useState(undefined);
   const params = useParams();
   const slug = params.slug;
   const slug_ = slug.replace(/-/g, " ");
   const slug__ = slug_.charAt(0).toUpperCase() + slug_.slice(1);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-    get_categories();
-    get_blog_list_by_category(slug);
-  }, [get_categories, get_blog_list_by_category, slug]);
+    if (blog_list && !posts && slug) {
+      setPosts(blog_list.filter((p) => p.category.slug === slug));
+    }
+  }, [blog_list, posts, slug]);
+
   return (
     <Layout>
       <Helmet>
@@ -47,9 +44,6 @@ function PostByCategory({
 }
 const mapStateToProps = (state) => ({
   categories: state.categories.categories,
-  posts: state.blog.blog_list_by_category,
+  blog_list: state.blog.blog_list,
 });
-export default connect(mapStateToProps, {
-  get_categories,
-  get_blog_list_by_category,
-})(PostByCategory);
+export default connect(mapStateToProps, {})(PostByCategory);

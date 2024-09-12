@@ -32,10 +32,11 @@ class PostListSerializer(serializers.ModelSerializer):
             'thumbnail',
             'author',
             'description',
+            'content',
             'time_read',
             'published',
             'views',
-            'category',
+            'category', 
             'status'
         ]
 

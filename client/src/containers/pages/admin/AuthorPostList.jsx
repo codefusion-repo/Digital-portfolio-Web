@@ -31,7 +31,6 @@ function AuthorPostList({
   };
 
   React.useEffect(() => {
-    window.scrollTo(0, 0);
     get_author_blog_list();
   }, [get_author_blog_list]);
 

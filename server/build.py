@@ -17,6 +17,7 @@ from apps.blog.models import Post
 from PIL import Image
 from io import BytesIO
 from django.core.files import File
+from django.conf import settings
 
 env = environ.Env()
 environ.Env.read_env()
@@ -51,9 +52,9 @@ class CreateDB():
         def getContent(title, url):
             return f"<div class='flex column box-xxl margin-center gap-s margin-t-s third-color' ><h1>{title}<h1><h4>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum molestie laoreet eros, eget pharetra enim vestibulum non. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Pellentesque suscipit, justo ut feugiat tristique, nisi purus ultrices augue, at rhoncus elit urna vitae velit. Aliquam vitae ante convallis, consectetur diam vitae, egestas dolor. Nulla facilisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent luctus laoreet justo, et tincidunt odio semper ut. Morbi faucibus vel diam ut efficitur. Aliquam vel hendrerit erat.</h4> <img class='box-xxl f-height-m fit-contain' src='{url}' alt='sampleProjectImage' /> </div>"
         
-        for index in range(1, 4, 1):
+        for index in range(1, 5, 1):
             print('index: ', index)
-            for projectIndex in range(1, 18, 1):
+            for projectIndex in range(1, 10, 1):
                 print('projectIndex: ', projectIndex)
                 title = f"sp-{index} Sample project-{projectIndex}"
                 slug = f"sp-{index}-sample-project-{projectIndex}"
@@ -76,10 +77,10 @@ class CreateDB():
                     green = random.randint(0, 255)
                     blue = random.randint(0, 255)
                     width, height = Image.open(
-                        "static-pw/static/img/sampleProjectImage.jpeg").size
+                        "static-dpw/static/img/sampleProjectImage.jpeg").size
                     solid_color_image = Image.new(
                         "RGB", (width, height), (red, green, blue))                    
-                    with open("static-pw/static/img/sampleProjectImage.jpeg", "rb") as img_file:
+                    with open("static-dpw/static/img/sampleProjectImage.jpeg", "rb") as img_file:
                         original_image = Image.open(img_file)
                         blended_image = Image.blend(
                             original_image, solid_color_image, alpha=0.5)
@@ -120,7 +121,7 @@ class CreateDB():
     def createPosts(categories, user):
         print("Starting create posts")
         def getContent(title, url):
-            return f"<div class='flex column box-xxl margin-center gap-s margin-t-s third-color' ><h1>{title}<h1><h4>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum molestie laoreet eros, eget pharetra enim vestibulum non. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Pellentesque suscipit, justo ut feugiat tristique, nisi purus ultrices augue, at rhoncus elit urna vitae velit. Aliquam vitae ante convallis, consectetur diam vitae, egestas dolor. Nulla facilisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent luctus laoreet justo, et tincidunt odio semper ut. Morbi faucibus vel diam ut efficitur. Aliquam vel hendrerit erat.</h4> <img class='box-xxl f-height-m fit-contain' src='{url}' alt='sampleProjectImage' /> </div>"
+            return f"<div class='flex column box-xxl margin-center gap-s margin-t-s third-color'> <h1>{title}<h1> <h4>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum molestie laoreet eros, eget pharetra enim vestibulum non. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Pellentesque suscipit, justo ut feugiat tristique, nisi purus ultrices augue, at rhoncus elit urna vitae velit. Aliquam vitae ante convallis, consectetur diam vitae, egestas dolor. Nulla facilisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent luctus laoreet justo, et tincidunt odio semper ut. Morbi faucibus vel diam ut efficitur. Aliquam vel hendrerit erat.</h4> <img class='box-xxl f-height-m fit-contain' src='{url}' alt='sampleProjectImage' /> </div>"
 
         for c in categories:
             for index in range(1, 12, 1):
@@ -146,10 +147,10 @@ class CreateDB():
                     green = random.randint(0, 255)
                     blue = random.randint(0, 255)
                     width, height = Image.open(
-                        "static-pw/static/img/samplePostImage.jpeg").size
+                        "static-dpw/static/img/samplePostImage.jpeg").size
                     solid_color_image = Image.new(
                         "RGB", (width, height), (red, green, blue))                    
-                    with open("static-pw/static/img/samplePostImage.jpeg", "rb") as img_file:
+                    with open("static-dpw/static/img/samplePostImage.jpeg", "rb") as img_file:
                         original_image = Image.open(img_file)
                         blended_image = Image.blend(
                             original_image, solid_color_image, alpha=0.5)
